@@ -76,9 +76,9 @@
     <rect x="218" y="104" width="368" height="162" rx="6" fill="#f5f4ef" stroke="#dcdad1"/>
     <svg x="342" y="110" width="120" height="61" viewBox="0 53 92 49" preserveAspectRatio="xMidYMid meet">
       <g transform="matrix(1 0 0 -1 0 172.91)">
-        <path d="M32.88,93.54 L58.96,93.54 L58.96,109.98 L45.92,117.92 L32.88,109.98 Z " fill="#d65a4a"/>
-        <circle cx="45.92" cy="102.33" r="3.26" fill="#ffffff"/>
-        <circle cx="45.92" cy="102.33" r="1.28" fill="#d65a4a"/>
+        <g transform="translate(45.92,105.73) scale(0.3,-0.3)"><path d="M-34 -2 L0 -31 L34 -2" fill="none" stroke="#d65a4a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><rect x="-25" y="-2" width="50" height="35" rx="7" fill="none" stroke="#d65a4a" stroke-width="6"/><circle cx="0" cy="15.5" r="7.5" fill="#d65a4a"/></g>
+        
+        
         <text transform="translate(26.17,82.20) scale(1,-1)" font-family="Helvetica, Arial, sans-serif" font-weight="bold" font-size="9.40" fill="#1f2937">OSELIA</text>
         <text transform="translate(23.14,72.00) scale(1,-1)" font-family="Helvetica, Arial, sans-serif" font-weight="normal" font-size="3.50" letter-spacing="0.35" fill="#ab483b">SMART AUTOMATION</text>
       </g>
