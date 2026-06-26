@@ -62,45 +62,47 @@ You can also just edit the Markdown in `src/content/` directly — the CMS is op
 
 ## Hosting & deployment
 
-Hosted **free on GitHub Pages** from the **`gh-pages`** branch, with two environments
-that share that branch:
+Hosted **free on GitHub Pages** from the **`gh-pages`** branch. Production lives at the
+root; **every pull request gets its own preview environment** in a per-PR subfolder:
 
 | Environment | Trigger | URL | Built with `BASE` |
 |-------------|---------|-----|-------------------|
 | **Production** (live) | push / merge to `main` | https://vmyronovych.github.io/oselia-web/ | `/oselia-web` |
-| **Staging** (preview, `noindex`) | any open **pull request** to `main` | https://vmyronovych.github.io/oselia-web/staging/ | `/oselia-web/staging` |
+| **PR preview** (`noindex`) | each open **pull request** to `main` | https://vmyronovych.github.io/oselia-web/pr-&lt;N&gt;/ | `/oselia-web/pr-<N>` |
 
-Two workflows publish into separate slots of the `gh-pages` branch (root vs
-`/staging/`), each leaving the other untouched:
-- [`deploy-production.yml`](.github/workflows/deploy-production.yml) — on push to `main`.
-- [`deploy-staging.yml`](.github/workflows/deploy-staging.yml) — on every pull request to
-  `main`. It deploys the PR to `/staging/` **and** is the required `build` status check,
-  so a PR that doesn't build can't be merged.
+Workflows publish into separate slots of the `gh-pages` branch, each leaving the others
+untouched:
+- [`deploy-production.yml`](.github/workflows/deploy-production.yml) — on push to `main` → root.
+- [`deploy-pr-preview.yml`](.github/workflows/deploy-pr-preview.yml) — on every PR to `main` →
+  `/pr-<N>/`. It posts the preview URL as a PR comment **and** is the required `build`
+  status check, so a PR that doesn't build can't be merged.
+- [`cleanup-pr-preview.yml`](.github/workflows/cleanup-pr-preview.yml) — on PR close → deletes
+  that PR's `/pr-<N>/` folder.
 
 One-time repo setup: GitHub → **Settings → Pages → Build and deployment →
 Source: Deploy from a branch → `gh-pages` / `(root)`**.
 
-### Test on staging, then ship live
+### Preview each PR, then ship live
 
 `main` is protected: it requires a pull request whose `build` check passes (enforced for
 admins too). So the flow is:
 
 ```bash
-# 1. Work on a branch (e.g. `staging` or a feature branch)
-git switch -c my-change       # or: git switch staging
+# 1. Work on a branch
+git switch -c my-change
 # …make changes / edit content…
 git push origin my-change
 
-# 2. Open a PR into main — this auto-deploys it to /oselia-web/staging/ for review
+# 2. Open a PR into main — it auto-deploys to /oselia-web/pr-<N>/ and comments the URL
 gh pr create --base main --head my-change --fill
 
-# 3. Looks good and the `build` check is green? Merge it → auto-deploys live
+# 3. Review the preview. Green `build` check? Merge → auto-deploys live; preview is removed
 gh pr merge --merge           # (or --squash)
 ```
 
-There is a single staging slot, so the most recently updated open PR owns it. CMS
-commits land on whichever branch you're authoring against, so point the CMS at your PR
-branch to preview content edits on staging before merging.
+Each PR has an isolated preview, so several can be reviewed in parallel. CMS commits land
+on whichever branch you're authoring against, so point the CMS at your PR branch to
+preview content edits before merging.
 
 ### Custom domain or user/org page
 

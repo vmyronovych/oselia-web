@@ -1,0 +1,72 @@
+name: Deploy PR preview
+
+# Every pull request into `main` gets its own preview environment, published to a
+# per-PR subfolder of the `gh-pages` branch:
+#   https://vmyronovych.github.io/oselia-web/pr-<number>/   (noindex)
+# This job is also the required `build` status check — a PR that doesn't build
+# can't be merged. The folder is removed when the PR closes (cleanup-pr-preview).
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+# Serialize all gh-pages publishes (previews + production share the branch) so two
+# runs never race on the same git push. Don't cancel an in-progress publish.
+concurrency:
+  group: gh-pages-publish
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build (PR preview)
+        run: npm run build
+        env:
+          SITE: https://vmyronovych.github.io
+          BASE: /oselia-web/pr-${{ github.event.pull_request.number }}
+
+      - name: Mark as noindex
+        run: |
+          find dist -name '*.html' -print0 \
+            | xargs -0 sed -i 's#</head>#<meta name="robots" content="noindex,nofollow"></head>#'
+
+      - name: Publish to gh-pages (/pr-<number>)
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          destination_dir: pr-${{ github.event.pull_request.number }}
+          # Keep production and every other PR's preview intact.
+          keep_files: true
+          commit_message: "deploy(preview): PR #${{ github.event.pull_request.number }} (${{ github.sha }})"
+
+      - name: Comment the preview URL on the PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const n = context.issue.number;
+            const url = `https://vmyronovych.github.io/oselia-web/pr-${n}/`;
+            const marker = '<!-- pr-preview-url -->';
+            const body = `${marker}\n### 🚀 Preview deployed\n\n**${url}**\n\nUpdates on every push to this PR · \`noindex\` · removed automatically when the PR closes.`;
+            const { data: comments } = await github.rest.issues.listComments({ ...context.repo, issue_number: n });
+            const existing = comments.find(c => c.body && c.body.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({ ...context.repo, comment_id: existing.id, body });
+            } else {
+              await github.rest.issues.createComment({ ...context.repo, issue_number: n, body });
+            }
