@@ -1,0 +1,67 @@
+<!DOCTYPE html><html lang="uk"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" type="image/svg+xml" href="/oselia-web/pr-4/favicon.svg"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"><title>Назви вимикачів та автоматизації — OSELIA</title><meta name="description" content="Підпишіть входи в Home Assistant і реагуйте на одинарне / подвійне / довге натискання."><meta property="og:title" content="Назви вимикачів та автоматизації — OSELIA"><meta property="og:description" content="Підпишіть входи в Home Assistant і реагуйте на одинарне / подвійне / довге натискання."><meta property="og:type" content="website"><meta name="generator" content="Astro v5.18.2"><link rel="stylesheet" href="/oselia-web/pr-4/_astro/_id_.DXtSjv0Y.css"><meta name="robots" content="noindex,nofollow"></head> <body> <header class="site-header"> <div class="wrap"> <a class="brand" href="/oselia-web/pr-4/uk/"> <svg class="mark" viewBox="0 0 100 100" fill="none" aria-hidden="true"> <circle cx="50" cy="50" r="45" stroke="currentColor" stroke-width="4" stroke-dasharray="57.5 13.2" stroke-linecap="round" transform="rotate(-45 50 50)"></circle> <circle cx="50" cy="50" r="29" stroke="currentColor" stroke-width="5"></circle> <circle cx="50" cy="50" r="12.5" fill="currentColor"></circle> </svg> <span class="wordmark">OSELIA</span> </a> <nav class="nav"> <a class="hide-sm" href="/oselia-web/pr-4/uk/products/hearth-di16g">Hearth DI16-G</a><a class="hide-sm" href="/oselia-web/pr-4/uk/products/ember-di16x">Ember DI-16X</a><a class="hide-sm" href="/oselia-web/pr-4/uk/docs/getting-started">Початок роботи</a> <div class="lang-switch" role="group" aria-label="Мова"> <a href="/oselia-web/pr-4/docs/automations/" class lang="en">EN</a><a href="/oselia-web/pr-4/uk/docs/automations/" class="active" aria-current="true" lang="uk">UK</a> </div> <a class="btn btn-ghost hide-sm" href="https://github.com/vmyronovych/oselia" target="_blank" rel="noopener">GitHub</a> </nav> </div> </header> <main>  <div class="wrap"> <div class="docs"> <nav class="docs-sidebar" aria-label="Documentation"> <div class="group"> <div class="group-title">Початок роботи</div> <a href="/oselia-web/pr-4/uk/docs/getting-started" class> Початок роботи </a><a href="/oselia-web/pr-4/uk/docs/ha-integration" class> Інтеграція Home Assistant </a><a href="/oselia-web/pr-4/uk/docs/automations" class="active" aria-current="page"> Назви вимикачів та автоматизації </a> </div><div class="group"> <div class="group-title">Довідка</div> <a href="/oselia-web/pr-4/uk/docs/troubleshooting" class> Усунення несправностей </a> </div> </nav> <article class="prose"> <h1>Назви вимикачів та автоматизації</h1>  <h2 id="як-назвати-вимикачі">Як назвати вимикачі</h2>
+<p>Вимикачі не іменуються в майстрі. Кожен вхід з’являється в Home Assistant як
+<code>board&#x3C;N>_input&#x3C;M></code>. Щоб підписати їх:</p>
+<ol>
+<li>Пройдіться домом і натисніть кожен фізичний вимикач.</li>
+<li>У Home Assistant спостерігайте, як спрацьовують тригери пристрою під час
+натискання, і перейменуйте кожен на кімнату/функцію, якою він керує.</li>
+</ol>
+<p>Це лише перейменування в інтерфейсі Home Assistant — без перепрошивки.</p>
+<h2 id="реакція-на-натискання">Реакція на натискання</h2>
+<p>Кожен вхід повідомляє, <strong>як</strong> його натиснули, тож один фізичний вимикач може робити
+кілька речей — наприклад, <strong>одинарний</strong> тап вмикає світло, <strong>довге</strong> утримання
+вимикає.</p>
+<blockquote>
+<p><strong>«З коробки» ви отримуєте <code>single</code> і <code>long</code>.</strong> <code>double</code> випромінюється лише якщо
+<code>DOUBLE_GAP_MS > 0</code> у конфігурації прошивки (за замовчуванням вимкнено, тож
+одинарний тап спрацьовує миттєво). Лишайте вимкненим, якщо реально не
+використовуєте подвійний тап.</p>
+</blockquote>
+<h3 id="варіант-a--інтерфейс-home-assistant-без-yaml">Варіант A — інтерфейс Home Assistant (без YAML)</h3>
+<p>Шлюз оголошує кожен вхід/жест як <strong>тригер пристрою</strong> Home Assistant:</p>
+<ol>
+<li><strong>Settings → Automations &#x26; scenes → Create automation → empty automation</strong>.</li>
+<li><strong>Add trigger → Device</strong>, оберіть <strong>«Hearth»</strong>, потім вхід і тип натискання:
+<ul>
+<li><strong>«… button short press»</strong> = <strong>одинарний</strong> тап</li>
+<li><strong>«… button long press»</strong> = <strong>довге</strong> утримання</li>
+<li><strong>«… button double press»</strong> з’являється лише якщо ви ввімкнули <code>double</code>.</li>
+</ul>
+</li>
+<li><strong>Add action</strong> — наприклад, <em>Light → Toggle</em>, оберіть світло. Збережіть.</li>
+</ol>
+<p>Зробіть одну автоматизацію для одинарного й другу для довгого натискання, якщо
+хочете різну поведінку.</p>
+<h3 id="варіант-b--yaml-для-rest-викликів--складних-дій">Варіант B — YAML (для REST-викликів / складних дій)</h3>
+<p>Кожен жест також публікується в MQTT:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>hearth/&#x3C;device_id>/board&#x3C;B>/input&#x3C;P>/action      payload: single | double | long</span></span></code></pre>
+<p>Знайдіть <code>&#x3C;device_id></code> через <code>mosquitto_sub -h &#x3C;BROKER_IP> -t 'hearth/+/status' -v</code>
+або зчитайте його зі сторінки пристрою в Home Assistant. Потім тригерте напряму на
+топік:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#E1E4E8">- </span><span style="color:#85E89D">alias</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"Світло в коридорі ON — board1 input1 single"</span></span>
+<span class="line"><span style="color:#85E89D">  triggers</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#85E89D">trigger</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">mqtt</span></span>
+<span class="line"><span style="color:#85E89D">      topic</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">hearth/&#x3C;device_id>/board1/input1/action</span></span>
+<span class="line"><span style="color:#85E89D">      payload</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">single</span></span>
+<span class="line"><span style="color:#85E89D">  actions</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#85E89D">action</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">light.turn_on</span></span>
+<span class="line"><span style="color:#85E89D">      target</span><span style="color:#E1E4E8">: { </span><span style="color:#85E89D">entity_id</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">light.hall</span><span style="color:#E1E4E8"> }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">- </span><span style="color:#85E89D">alias</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"Світло в коридорі OFF — board1 input1 long"</span></span>
+<span class="line"><span style="color:#85E89D">  triggers</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#85E89D">trigger</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">mqtt</span></span>
+<span class="line"><span style="color:#85E89D">      topic</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">hearth/&#x3C;device_id>/board1/input1/action</span></span>
+<span class="line"><span style="color:#85E89D">      payload</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">long</span></span>
+<span class="line"><span style="color:#85E89D">  actions</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#85E89D">action</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">light.turn_off</span></span>
+<span class="line"><span style="color:#85E89D">      target</span><span style="color:#E1E4E8">: { </span><span style="color:#85E89D">entity_id</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">light.hall</span><span style="color:#E1E4E8"> }</span></span></code></pre>
+<blockquote>
+<p>Замініть <code>&#x3C;device_id></code>, номери плати/входу та entity id на свої. Після
+редагування YAML перезавантажте в <strong>Developer Tools → YAML → Reload automations</strong>.
+Порада: дивіться натискання наживо через <code>mosquitto_sub -h &#x3C;BROKER_IP> -t 'hearth/#' -v</code>,
+поки тапаєте.</p>
+</blockquote>
+<h2 id="сутності-подій-на-вхід">Сутності подій на вхід</h2>
+<p>Окрім тригерів пристрою, кожен вхід також є сутністю <code>event</code>
+(<code>event.hearth_board&#x3C;B>_input&#x3C;N></code>) з типами подій <code>single</code> / <code>double</code> / <code>long</code> —
+сучасний, зручний для панелей і журналу спосіб реагувати на натискання.</p>  </article> </div> </div>  </main> <footer class="site-footer"> <div class="wrap"> <div>© 2026 OSELIA — локальна дротова система розумного дому.</div> <div style="display:flex; gap:1.2rem; flex-wrap:wrap;"> <a href="/oselia-web/pr-4/uk/docs/getting-started">Документація</a> <a href="https://github.com/vmyronovych/oselia-hearth-di16g-firmware" target="_blank" rel="noopener">Прошивка</a> <a href="https://github.com/vmyronovych/oselia-hearth-di16g-ha" target="_blank" rel="noopener">Інтеграція HA</a> <a href="/oselia-web/pr-4/admin/">Редагувати (CMS)</a> </div> </div> </footer> </body></html>

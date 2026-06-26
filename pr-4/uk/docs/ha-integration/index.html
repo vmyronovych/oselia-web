@@ -1,0 +1,47 @@
+<!DOCTYPE html><html lang="uk"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" type="image/svg+xml" href="/oselia-web/pr-4/favicon.svg"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"><title>Інтеграція Home Assistant — OSELIA</title><meta name="description" content="Встановіть власну інтеграцію OSELIA Hearth через HACS для рідних сутностей, діагностики й OTA-оновлень."><meta property="og:title" content="Інтеграція Home Assistant — OSELIA"><meta property="og:description" content="Встановіть власну інтеграцію OSELIA Hearth через HACS для рідних сутностей, діагностики й OTA-оновлень."><meta property="og:type" content="website"><meta name="generator" content="Astro v5.18.2"><link rel="stylesheet" href="/oselia-web/pr-4/_astro/_id_.DXtSjv0Y.css"><meta name="robots" content="noindex,nofollow"></head> <body> <header class="site-header"> <div class="wrap"> <a class="brand" href="/oselia-web/pr-4/uk/"> <svg class="mark" viewBox="0 0 100 100" fill="none" aria-hidden="true"> <circle cx="50" cy="50" r="45" stroke="currentColor" stroke-width="4" stroke-dasharray="57.5 13.2" stroke-linecap="round" transform="rotate(-45 50 50)"></circle> <circle cx="50" cy="50" r="29" stroke="currentColor" stroke-width="5"></circle> <circle cx="50" cy="50" r="12.5" fill="currentColor"></circle> </svg> <span class="wordmark">OSELIA</span> </a> <nav class="nav"> <a class="hide-sm" href="/oselia-web/pr-4/uk/products/hearth-di16g">Hearth DI16-G</a><a class="hide-sm" href="/oselia-web/pr-4/uk/products/ember-di16x">Ember DI-16X</a><a class="hide-sm" href="/oselia-web/pr-4/uk/docs/getting-started">Початок роботи</a> <div class="lang-switch" role="group" aria-label="Мова"> <a href="/oselia-web/pr-4/docs/ha-integration/" class lang="en">EN</a><a href="/oselia-web/pr-4/uk/docs/ha-integration/" class="active" aria-current="true" lang="uk">UK</a> </div> <a class="btn btn-ghost hide-sm" href="https://github.com/vmyronovych/oselia" target="_blank" rel="noopener">GitHub</a> </nav> </div> </header> <main>  <div class="wrap"> <div class="docs"> <nav class="docs-sidebar" aria-label="Documentation"> <div class="group"> <div class="group-title">Початок роботи</div> <a href="/oselia-web/pr-4/uk/docs/getting-started" class> Початок роботи </a><a href="/oselia-web/pr-4/uk/docs/ha-integration" class="active" aria-current="page"> Інтеграція Home Assistant </a><a href="/oselia-web/pr-4/uk/docs/automations" class> Назви вимикачів та автоматизації </a> </div><div class="group"> <div class="group-title">Довідка</div> <a href="/oselia-web/pr-4/uk/docs/troubleshooting" class> Усунення несправностей </a> </div> </nav> <article class="prose"> <h1>Інтеграція Home Assistant</h1>  <p>Інтеграція <strong>OSELIA Hearth</strong> для Home Assistant робить так, що шлюз з’являється під
+<strong>власною інтеграцією OSELIA</strong> (а не загальною MQTT-інтеграцією) з рідною сутністю
+оновлення прошивки <strong>update</strong> для OTA. Встановлюється один раз на інстанс Home
+Assistant.</p>
+<h2 id="встановлення-через-hacs-рекомендовано">Встановлення через HACS (рекомендовано)</h2>
+<ol>
+<li>У Home Assistant відкрийте <strong>HACS → ⋮ (вгорі праворуч) → Custom repositories</strong>.</li>
+<li>Репозиторій: <code>https://github.com/vmyronovych/oselia-hearth-di16g-ha</code>,
+категорія <strong>Integration</strong>.</li>
+<li>Встановіть <strong>OSELIA Hearth</strong>, потім <strong>перезапустіть Home Assistant</strong>.</li>
+<li><strong>Settings → Devices &#x26; Services → Add integration → OSELIA Hearth</strong> і вкажіть ваш
+MQTT-брокер.</li>
+</ol>
+<p>Після цього оновлення приходять у HACS автоматично з кожним релізом.</p>
+<blockquote>
+<p>Майстер провіженінгу може налаштувати інтеграцію за вас (<code>--ha-setup</code>), але сам
+<em>компонент</em> інтеграції спершу має бути встановлений через HACS, як вище.</p>
+</blockquote>
+<h2 id="встановлення-вручну">Встановлення вручну</h2>
+<p>Скопіюйте <code>custom_components/oselia/</code> у <code>config/custom_components/</code> вашого Home
+Assistant, перезапустіть Home Assistant і додайте інтеграцію як у кроці 4 вище.</p>
+<h2 id="як-це-працює">Як це працює</h2>
+<ul>
+<li>Інтеграція відкриває <strong>власне MQTT-з’єднання</strong> до того самого брокера, що й шлюзи —
+вона <strong>не</strong> залежить від MQTT-інтеграції Home Assistant. Один запис конфігурації на
+брокер.</li>
+<li>Шлюзи виявляються з їхніх retained-топіків (<code>hearth/&#x3C;id>/status</code>,
+<code>…/diag/state</code>). Кожен стає одним пристроєм Home Assistant під OSELIA.</li>
+</ul>
+<h2 id="що-ви-отримуєте-для-кожного-шлюзу">Що ви отримуєте для кожного шлюзу</h2>
+<ul>
+<li><strong>Події</strong> — одна сутність <code>event</code> на вхід, з типами <code>single</code> / <code>double</code> / <code>long</code>.</li>
+<li><strong>Тригери пристрою</strong> — на кожен вхід <code>button_short_press</code> / <code>button_double_press</code> /
+<code>button_long_press</code>, тож вони з’являються у виборі <strong>Device → Trigger</strong>.</li>
+<li><strong>Діагностика</strong> — аптайм, вільна пам’ять, температура RP2040, перепідключення,
+втрачені події, плати онлайн + їхні адреси, останній вхід, IP, лінк Ethernet.</li>
+<li><strong>Керування</strong> — кнопки Restart / Identify; живі числові параметри таймінгу;
+вибір рівня логів. Зміни діють миттєво й зберігаються після перезавантаження.</li>
+<li><strong>Оновлення прошивки</strong> — рідна картка OTA; <code>latest_version</code> з GitHub-фіду релізів.
+OTA перевірено апаратно від початку до кінця (завантаження → перевірка →
+застосування → підтвердження, з авто-відкатом за збою).</li>
+</ul>
+<h2 id="стійкість">Стійкість</h2>
+<p>Інтеграція <strong>безпечна при старті</strong> (брокер, недоступний на старті HA, ніколи не
+зриває налаштування), <strong>автоматично перепідключається</strong> з повторною підпискою,
+слідкує за доступністю брокера, надає завжди-доступний сенсор <strong>«Broker
+connection»</strong> і <strong>безпечна до перезавантаження</strong>.</p>  </article> </div> </div>  </main> <footer class="site-footer"> <div class="wrap"> <div>© 2026 OSELIA — локальна дротова система розумного дому.</div> <div style="display:flex; gap:1.2rem; flex-wrap:wrap;"> <a href="/oselia-web/pr-4/uk/docs/getting-started">Документація</a> <a href="https://github.com/vmyronovych/oselia-hearth-di16g-firmware" target="_blank" rel="noopener">Прошивка</a> <a href="https://github.com/vmyronovych/oselia-hearth-di16g-ha" target="_blank" rel="noopener">Інтеграція HA</a> <a href="/oselia-web/pr-4/admin/">Редагувати (CMS)</a> </div> </div> </footer> </body></html>
