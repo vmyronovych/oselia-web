@@ -45,6 +45,31 @@ function rehypeBasePaths() {
   return (/** @type {any} */ tree) => visit(tree);
 }
 
+/**
+ * Wrap every Markdown <table> in <div class="table-wrap"> so wide tables scroll
+ * horizontally inside their own box on small screens instead of overflowing the
+ * whole page.
+ */
+function rehypeTableWrap() {
+  /** @param {any} node */
+  const visit = (node) => {
+    if (!node.children) return;
+    node.children = node.children.map((/** @type {any} */ child) => {
+      if (child.type === 'element' && child.tagName === 'table') {
+        return {
+          type: 'element',
+          tagName: 'div',
+          properties: { className: ['table-wrap'] },
+          children: [child],
+        };
+      }
+      visit(child);
+      return child;
+    });
+  };
+  return (/** @type {any} */ tree) => visit(tree);
+}
+
 export default defineConfig({
   site: SITE,
   base: BASE,
@@ -57,7 +82,7 @@ export default defineConfig({
     },
   },
   markdown: {
-    rehypePlugins: [rehypeBasePaths],
+    rehypePlugins: [rehypeBasePaths, rehypeTableWrap],
   },
   integrations: [mdx(), sitemap({ i18n: { defaultLocale: 'en', locales: { en: 'en', uk: 'uk' } } })],
 });
