@@ -59,13 +59,7 @@ A single [Hearth DI16-G](/products/hearth-di16g) handles its own 16 inputs plus 
 to **seven Ember modules** — `0x21` through `0x27` on the bus — for **128 inputs**
 total. Board numbering follows bus position, so inputs stay predictable:
 
-```
-Hearth (board 1, 0x20) ─┐
-Ember  (board 2, 0x21) ─┤
-Ember  (board 3, 0x22) ─┤  shared SDA/SCL + wired-OR INT
-   ...                  ─┤
-Ember  (board 8, 0x27) ─┘
-```
+![One Hearth gateway plus up to seven Ember expanders chained on a shared I²C field bus, addresses 0x20 to 0x27](/diagrams/scaling-en.svg)
 
 ## Adding one
 
