@@ -14,7 +14,7 @@
     <rect x="20" y="50" width="130" height="124" rx="8" fill="#dcdad2" stroke="#b6b4ab" stroke-width="1.4"/>
     <rect x="40" y="46" width="90" height="11" rx="2" fill="#2f8f5f" stroke="#247048"/>
     <g fill="#16181d"><rect x="46" y="49" width="6" height="5" rx="1"/><rect x="60" y="49" width="6" height="5" rx="1"/><rect x="74" y="49" width="6" height="5" rx="1"/><rect x="88" y="49" width="6" height="5" rx="1"/><rect x="102" y="49" width="6" height="5" rx="1"/><rect x="116" y="49" width="6" height="5" rx="1"/></g>
-    <g transform="translate(85,0)"><path d="M0 72 L9 78 L9 88 L-9 88 L-9 78 Z" fill="#34c27a"/><circle cx="0" cy="82" r="2.4" fill="#fff"/><circle cx="0" cy="82" r="1" fill="#34c27a"/></g>
+    <g transform="translate(85,0)"><g transform="translate(0,82) scale(0.18)"><rect x="-42" y="8" width="84" height="9" rx="4.5" fill="#34c27a" opacity=".32"/><rect x="-28" y="-20" width="15" height="28" rx="3.5" fill="none" stroke="#34c27a" stroke-width="4.5"/><rect x="-7.5" y="-20" width="15" height="28" rx="3.5" fill="#34c27a"/><rect x="13" y="-20" width="15" height="28" rx="3.5" fill="none" stroke="#34c27a" stroke-width="4.5"/></g></g>
     <text x="85" y="111" text-anchor="middle"><tspan font-size="12.5" font-weight="800" fill="#23262c">Hearth </tspan><tspan font-size="9" font-weight="600" fill="#6c6f78">DI16-G</tspan></text>
     <rect x="59" y="126" width="52" height="18" rx="9" fill="#fff" stroke="#cfcdc4"/>
     <text x="85" y="139" font-size="10" fill="#3a3d44" text-anchor="middle">0x20</text>
@@ -29,7 +29,7 @@
     <rect x="166" y="50" width="130" height="124" rx="8" fill="#dcdad2" stroke="#b6b4ab" stroke-width="1.4"/>
     <rect x="186" y="46" width="90" height="11" rx="2" fill="#2f8f5f" stroke="#247048"/>
     <g fill="#16181d"><rect x="192" y="49" width="6" height="5" rx="1"/><rect x="206" y="49" width="6" height="5" rx="1"/><rect x="220" y="49" width="6" height="5" rx="1"/><rect x="234" y="49" width="6" height="5" rx="1"/><rect x="248" y="49" width="6" height="5" rx="1"/><rect x="262" y="49" width="6" height="5" rx="1"/></g>
-    <g transform="translate(231,0)"><path d="M0 72 L9 78 L9 88 L-9 88 L-9 78 Z" fill="#34c27a"/><circle cx="0" cy="82" r="2.4" fill="#fff"/><circle cx="0" cy="82" r="1" fill="#34c27a"/></g>
+    <g transform="translate(231,0)"><g transform="translate(0,82) scale(0.18)"><rect x="-42" y="8" width="84" height="9" rx="4.5" fill="#34c27a" opacity=".32"/><rect x="-28" y="-20" width="15" height="28" rx="3.5" fill="none" stroke="#34c27a" stroke-width="4.5"/><rect x="-7.5" y="-20" width="15" height="28" rx="3.5" fill="#34c27a"/><rect x="13" y="-20" width="15" height="28" rx="3.5" fill="none" stroke="#34c27a" stroke-width="4.5"/></g></g>
     <text x="231" y="111" text-anchor="middle"><tspan font-size="12.5" font-weight="800" fill="#23262c">Ember </tspan><tspan font-size="9" font-weight="600" fill="#6c6f78">DI-16X</tspan></text>
     <rect x="205" y="126" width="52" height="18" rx="9" fill="#fff" stroke="#cfcdc4"/>
     <text x="231" y="139" font-size="10" fill="#3a3d44" text-anchor="middle">0x21</text>
@@ -50,7 +50,7 @@
     <rect x="404" y="50" width="130" height="124" rx="8" fill="#dcdad2" stroke="#b6b4ab" stroke-width="1.4"/>
     <rect x="424" y="46" width="90" height="11" rx="2" fill="#2f8f5f" stroke="#247048"/>
     <g fill="#16181d"><rect x="430" y="49" width="6" height="5" rx="1"/><rect x="444" y="49" width="6" height="5" rx="1"/><rect x="458" y="49" width="6" height="5" rx="1"/><rect x="472" y="49" width="6" height="5" rx="1"/><rect x="486" y="49" width="6" height="5" rx="1"/><rect x="500" y="49" width="6" height="5" rx="1"/></g>
-    <g transform="translate(469,0)"><path d="M0 72 L9 78 L9 88 L-9 88 L-9 78 Z" fill="#34c27a"/><circle cx="0" cy="82" r="2.4" fill="#fff"/><circle cx="0" cy="82" r="1" fill="#34c27a"/></g>
+    <g transform="translate(469,0)"><g transform="translate(0,82) scale(0.18)"><rect x="-42" y="8" width="84" height="9" rx="4.5" fill="#34c27a" opacity=".32"/><rect x="-28" y="-20" width="15" height="28" rx="3.5" fill="none" stroke="#34c27a" stroke-width="4.5"/><rect x="-7.5" y="-20" width="15" height="28" rx="3.5" fill="#34c27a"/><rect x="13" y="-20" width="15" height="28" rx="3.5" fill="none" stroke="#34c27a" stroke-width="4.5"/></g></g>
     <text x="469" y="111" text-anchor="middle"><tspan font-size="12.5" font-weight="800" fill="#23262c">Ember </tspan><tspan font-size="9" font-weight="600" fill="#6c6f78">DI-16X</tspan></text>
     <rect x="443" y="126" width="52" height="18" rx="9" fill="#fff" stroke="#cfcdc4"/>
     <text x="469" y="139" font-size="10" fill="#3a3d44" text-anchor="middle">0x27</text>
