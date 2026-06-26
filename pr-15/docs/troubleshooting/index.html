@@ -1,0 +1,72 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" type="image/svg+xml" href="/oselia-web/pr-15/favicon.svg"><title>Troubleshooting — OSELIA</title><meta name="description" content="Common provisioning messages and how to fix them, plus watching live logs over USB."><meta property="og:title" content="Troubleshooting — OSELIA"><meta property="og:description" content="Common provisioning messages and how to fix them, plus watching live logs over USB."><meta property="og:type" content="website"><meta name="generator" content="Astro v5.18.2"><link rel="stylesheet" href="/oselia-web/pr-15/_astro/_id_.BGT7Ajpr.css"><meta name="robots" content="noindex,nofollow"></head> <body> <header class="site-header"> <div class="wrap"> <a class="brand" href="/oselia-web/pr-15/"> <svg class="mark" viewBox="0 0 100 100" fill="none" aria-hidden="true"><rect x="8" y="58" width="84" height="9" rx="4.5" fill="currentColor" opacity=".32"></rect><rect x="22" y="30" width="15" height="28" rx="3.5" stroke="currentColor" stroke-width="4.5"></rect><rect x="42.5" y="30" width="15" height="28" rx="3.5" fill="currentColor"></rect><rect x="63" y="30" width="15" height="28" rx="3.5" stroke="currentColor" stroke-width="4.5"></rect></svg>
+OSELIA
+</a> <nav class="nav"> <a class="hide-sm" href="/oselia-web/pr-15/products/hearth-di16g">Hearth DI16-G</a><a class="hide-sm" href="/oselia-web/pr-15/products/ember-di16x">Ember DI-16X</a><a class="hide-sm" href="/oselia-web/pr-15/docs/getting-started">Getting Started</a> <div class="lang-switch" role="group" aria-label="Language"> <a href="/oselia-web/pr-15/docs/troubleshooting/" class="active" aria-current="true" lang="en">EN</a><a href="/oselia-web/pr-15/uk/docs/troubleshooting/" class lang="uk">UK</a> </div> <a class="btn btn-ghost hide-sm" href="https://github.com/vmyronovych/oselia" target="_blank" rel="noopener">GitHub</a> </nav> </div> </header> <main>  <div class="wrap"> <div class="docs"> <nav class="docs-sidebar" aria-label="Documentation"> <div class="group"> <div class="group-title">Getting Started</div> <a href="/oselia-web/pr-15/docs/getting-started" class> Getting Started </a><a href="/oselia-web/pr-15/docs/ha-integration" class> Home Assistant Integration </a><a href="/oselia-web/pr-15/docs/automations" class> Naming Switches &amp; Automations </a> </div><div class="group"> <div class="group-title">Reference</div> <a href="/oselia-web/pr-15/docs/troubleshooting" class="active" aria-current="page"> Troubleshooting </a> </div> </nav> <article class="prose"> <h1>Troubleshooting</h1>  <h2 id="common-messages">Common messages</h2>
+<div class="table-wrap">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Message</th><th>Likely cause / fix</th></tr></thead><tbody><tr><td><code>No RP2040-ETH detected over USB</code></td><td>Cable not plugged in, or wrong port — try <code>--port</code>. If it vanished <em>after</em> provisioning, recover via <strong>BOOTSEL</strong> (hold BOOT while plugging in), then re-run.</td></tr><tr><td><code>No MicroPython detected</code> / version mismatch</td><td>Accept the wizard’s offer to flash the pinned build (needs internet, or pass <code>--mpy-uf2 PATH</code>).</td></tr><tr><td><code>BOOTSEL drive (RPI-RP2) didn't appear</code></td><td>The board didn’t enter BOOTSEL; do the BOOT+RESET dance by hand and retry.</td></tr><tr><td><code>could not enter raw repl</code></td><td>A running unit’s watchdog fights <code>mpremote</code>. Unplug/replug (or tap RESET) and re-run.</td></tr><tr><td><code>cannot reach &#x3C;ip>:&#x3C;port></code></td><td>Wrong broker IP/port, broker down, or laptop on a different network.</td></tr><tr><td><code>broker refused: bad username or password</code></td><td>Fix the credentials and re-run.</td></tr><tr><td><code>FAIL (ethernet)</code></td><td>Ethernet cable / broker IP unreachable <strong>from the gateway’s</strong> network.</td></tr><tr><td><code>FAIL (mqtt)</code></td><td>Broker reachable but login/session failed — recheck IP/port and credentials.</td></tr><tr><td><code>FAIL (mcp)</code></td><td>An input board isn’t responding — check I²C wiring and that the board count matches the chips installed.</td></tr><tr><td><code>zeroconf package missing</code></td><td>Accept the wizard’s offer to install it, or decline and type the broker IP manually.</td></tr></tbody></table></div>
+<h2 id="watching-live-logs-over-usb">Watching live logs over USB</h2>
+<p>When a unit won’t come online, watch its full boot over USB on a board that’s already
+running:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">python3</span><span style="color:#9ECBFF"> provision.py</span><span style="color:#79B8FF"> --monitor</span></span></code></pre>
+<p>This <strong>does not flash or re-provision</strong> anything. It streams the firmware log — Ethernet
+link, the input boards it discovers, leased IP, MQTT connect, HA discovery — with errors
+in red and warnings in yellow. Press Ctrl-C to stop.</p>
+<p>To listen to a stable field unit <strong>without restarting it</strong>, add <code>--monitor-passive</code>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">python3</span><span style="color:#9ECBFF"> provision.py</span><span style="color:#79B8FF"> --monitor</span><span style="color:#79B8FF"> --monitor-passive</span></span></code></pre>
+<h2 id="decommissioning-a-unit">Decommissioning a unit</h2>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># Full decommission: remove from Home Assistant AND erase the board.</span></span>
+<span class="line"><span style="color:#B392F0">python3</span><span style="color:#9ECBFF"> provision.py</span><span style="color:#79B8FF"> --uninstall-all</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># ...or individual steps:</span></span>
+<span class="line"><span style="color:#B392F0">python3</span><span style="color:#9ECBFF"> provision.py</span><span style="color:#79B8FF"> --uninstall-firmware</span><span style="color:#6A737D">   # erase app files (keeps MicroPython)</span></span>
+<span class="line"><span style="color:#B392F0">python3</span><span style="color:#9ECBFF"> provision.py</span><span style="color:#79B8FF"> --erase-flash</span><span style="color:#6A737D">          # erase EVERYTHING incl. MicroPython</span></span>
+<span class="line"><span style="color:#B392F0">python3</span><span style="color:#9ECBFF"> provision.py</span><span style="color:#79B8FF"> --uninstall-ha</span><span style="color:#6A737D">         # remove from Home Assistant</span></span></code></pre>
+<p><code>--erase-flash</code> wipes the whole flash, leaving a bare-metal RP2040 in BOOTSEL. It
+confirms first (irreversible). To reuse the board, re-run <code>provision.py</code>.</p>  </article> </div> </div>  </main> <footer class="site-footer"> <div class="wrap"> <div>© 2026 OSELIA — a local-first, wired smart-home system.</div> <div style="display:flex; gap:1.2rem; flex-wrap:wrap;"> <a href="/oselia-web/pr-15/docs/getting-started">Docs</a> <a href="https://github.com/vmyronovych/oselia-hearth-di16g-firmware" target="_blank" rel="noopener">Firmware</a> <a href="https://github.com/vmyronovych/oselia-hearth-di16g-ha" target="_blank" rel="noopener">HA Integration</a> <a href="/oselia-web/pr-15/admin/">Edit (CMS)</a> </div> </div> </footer> </body></html>
