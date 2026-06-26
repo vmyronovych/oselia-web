@@ -1,0 +1,47 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" type="image/svg+xml" href="/oselia-web/pr-11/favicon.svg"><title>Home Assistant Integration — OSELIA</title><meta name="description" content="Install the first-party OSELIA Hearth integration via HACS for native entities, diagnostics and OTA updates."><meta property="og:title" content="Home Assistant Integration — OSELIA"><meta property="og:description" content="Install the first-party OSELIA Hearth integration via HACS for native entities, diagnostics and OTA updates."><meta property="og:type" content="website"><meta name="generator" content="Astro v5.18.2"><link rel="stylesheet" href="/oselia-web/pr-11/_astro/_id_.BGT7Ajpr.css"><meta name="robots" content="noindex,nofollow"></head> <body> <header class="site-header"> <div class="wrap"> <a class="brand" href="/oselia-web/pr-11/"> <svg class="mark" viewBox="0 0 100 100" fill="none" aria-hidden="true"><path d="M16 48 L50 19 L84 48" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></path><rect x="25" y="48" width="50" height="35" rx="7" stroke="currentColor" stroke-width="6"></rect><circle cx="50" cy="65.5" r="7.5" fill="currentColor"></circle></svg>
+OSELIA
+</a> <nav class="nav"> <a class="hide-sm" href="/oselia-web/pr-11/products/hearth-di16g">Hearth DI16-G</a><a class="hide-sm" href="/oselia-web/pr-11/products/ember-di16x">Ember DI-16X</a><a class="hide-sm" href="/oselia-web/pr-11/docs/getting-started">Getting Started</a> <div class="lang-switch" role="group" aria-label="Language"> <a href="/oselia-web/pr-11/docs/ha-integration/" class="active" aria-current="true" lang="en">EN</a><a href="/oselia-web/pr-11/uk/docs/ha-integration/" class lang="uk">UK</a> </div> <a class="btn btn-ghost hide-sm" href="https://github.com/vmyronovych/oselia" target="_blank" rel="noopener">GitHub</a> </nav> </div> </header> <main>  <div class="wrap"> <div class="docs"> <nav class="docs-sidebar" aria-label="Documentation"> <div class="group"> <div class="group-title">Getting Started</div> <a href="/oselia-web/pr-11/docs/getting-started" class> Getting Started </a><a href="/oselia-web/pr-11/docs/ha-integration" class="active" aria-current="page"> Home Assistant Integration </a><a href="/oselia-web/pr-11/docs/automations" class> Naming Switches &amp; Automations </a> </div><div class="group"> <div class="group-title">Reference</div> <a href="/oselia-web/pr-11/docs/troubleshooting" class> Troubleshooting </a> </div> </nav> <article class="prose"> <h1>Home Assistant Integration</h1>  <p>The <strong>OSELIA Hearth</strong> Home Assistant integration makes a gateway appear under <strong>its
+own OSELIA integration</strong> (not the generic MQTT integration), with a native firmware
+<strong>update</strong> entity for OTA. Install it once per Home Assistant instance.</p>
+<h2 id="install-via-hacs-recommended">Install via HACS (recommended)</h2>
+<ol>
+<li>In Home Assistant, open <strong>HACS → ⋮ (top right) → Custom repositories</strong>.</li>
+<li>Repository: <code>https://github.com/vmyronovych/oselia-hearth-di16g-ha</code>,
+category <strong>Integration</strong>.</li>
+<li>Install <strong>OSELIA Hearth</strong>, then <strong>restart Home Assistant</strong>.</li>
+<li><strong>Settings → Devices &#x26; Services → Add integration → OSELIA Hearth</strong>, and point it at
+your MQTT broker.</li>
+</ol>
+<p>Updates then arrive in HACS automatically on each new release.</p>
+<blockquote>
+<p>The provisioning wizard can configure the integration for you (<code>--ha-setup</code>), but the
+integration <em>component</em> itself must be installed via HACS first, as above.</p>
+</blockquote>
+<h2 id="install-manually">Install manually</h2>
+<p>Copy <code>custom_components/oselia/</code> into your Home Assistant <code>config/custom_components/</code>,
+restart Home Assistant, and add the integration as in step 4 above.</p>
+<h2 id="how-it-works">How it works</h2>
+<ul>
+<li>The integration opens <strong>its own MQTT connection</strong> to the same broker the gateways
+use — it does <strong>not</strong> depend on Home Assistant’s MQTT integration. One config entry
+per broker.</li>
+<li>Gateways are discovered from their retained topics (<code>hearth/&#x3C;id>/status</code>,
+<code>…/diag/state</code>). Each becomes one Home Assistant device under OSELIA.</li>
+</ul>
+<h2 id="what-you-get-per-gateway">What you get per gateway</h2>
+<ul>
+<li><strong>Events</strong> — one <code>event</code> entity per input, with <code>single</code> / <code>double</code> / <code>long</code> types.</li>
+<li><strong>Device triggers</strong> — per input <code>button_short_press</code> / <code>button_double_press</code> /
+<code>button_long_press</code>, so they appear in the automation <strong>Device → Trigger</strong> picker.</li>
+<li><strong>Diagnostics</strong> — uptime, free memory, RP2040 temperature, reconnects, dropped
+events, boards online + their addresses, last input, IP, Ethernet link.</li>
+<li><strong>Controls</strong> — Restart / Identify buttons; live gesture-timing numbers; log-level
+select. Changes take effect immediately and survive a reboot.</li>
+<li><strong>Firmware update</strong> — a native OTA card; <code>latest_version</code> from a GitHub release feed.
+OTA is hardware-verified end to end (download → verify → apply → boot-confirm, with
+auto-revert on a bad image).</li>
+</ul>
+<h2 id="resilience">Resilience</h2>
+<p>The integration is <strong>startup-safe</strong> (a broker that’s down at HA startup never fails
+setup), <strong>auto-reconnects</strong> with re-subscribe, follows broker availability, exposes an
+always-available <strong>“Broker connection”</strong> sensor, and is <strong>reload-safe</strong>.</p>  </article> </div> </div>  </main> <footer class="site-footer"> <div class="wrap"> <div>© 2026 OSELIA — a local-first, wired smart-home system.</div> <div style="display:flex; gap:1.2rem; flex-wrap:wrap;"> <a href="/oselia-web/pr-11/docs/getting-started">Docs</a> <a href="https://github.com/vmyronovych/oselia-hearth-di16g-firmware" target="_blank" rel="noopener">Firmware</a> <a href="https://github.com/vmyronovych/oselia-hearth-di16g-ha" target="_blank" rel="noopener">HA Integration</a> <a href="/oselia-web/pr-11/admin/">Edit (CMS)</a> </div> </div> </footer> </body></html>
