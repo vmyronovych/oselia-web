@@ -1,23 +1,27 @@
-name: Deploy staging
+name: Deploy staging (PR preview)
 
-# Staging site: https://vmyronovych.github.io/oselia-web/staging/
-# Built from the `staging` branch and published to the /staging/ subfolder of the
-# `gh-pages` branch. Tagged noindex so it stays out of search results.
+# Every pull request into `main` is built and published to the staging slot:
+#   https://vmyronovych.github.io/oselia-web/staging/   (noindex)
+# This same job is the required `build` status check — if it fails, the PR can't be
+# merged. There is a single staging slot, so the most recently updated PR owns it.
 
 on:
-  push:
-    branches: [staging]
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
   workflow_dispatch:
 
 permissions:
   contents: write
 
+# Serialize all gh-pages publishes (staging + production share the branch). Never
+# cancel in-progress — cancelling could abort a production publish in the same group.
 concurrency:
   group: gh-pages-publish
   cancel-in-progress: false
 
 jobs:
-  build-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -48,4 +52,4 @@ jobs:
           destination_dir: staging
           # Keep the production site at the root intact.
           keep_files: true
-          commit_message: "deploy(staging): ${{ github.sha }}"
+          commit_message: "deploy(staging): PR #${{ github.event.pull_request.number }} (${{ github.sha }})"
