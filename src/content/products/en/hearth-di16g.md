@@ -57,16 +57,19 @@ It reads 16 isolated 24 V inputs on board, and scales to **128 inputs** by chain
 [Ember DI-16X](/products/ember-di16x) expanders on the shared I²C field bus. One
 gateway, one MQTT connection, one device in Home Assistant.
 
-## How it fits together
+## How it's wired
 
-```
-Wall switch ─ 24 V ─▶ Hearth DI16-G ─ Ethernet ─▶ MQTT broker ─▶ Home Assistant
-                          │
-                          └─ I²C field bus ─▶ Ember DI-16X ─▶ Ember DI-16X ... (×7)
-```
+A minimal install is three parts on the DIN rail: a **24 V power supply**, the
+**Hearth gateway**, and your **wall switches**. Mains feeds the PSU; 24 V powers the
+Hearth; each switch loops 24 V into an isolated input. Ethernet carries everything to
+Home Assistant.
 
-The firmware classifies each press and publishes it; the OSELIA Home Assistant
-integration turns those into entities, device triggers and a curated dashboard.
+![A 24 V power supply, the OSELIA Hearth gateway and a wall switch mounted on a DIN rail](/diagrams/hearth-wiring-en.svg)
+
+Need more than 16 inputs? Add [Ember DI-16X](/products/ember-di16x) expanders on the
+shared I²C field bus. The firmware classifies each press and publishes it; the OSELIA
+Home Assistant integration turns those into entities, device triggers and a curated
+dashboard.
 
 ## Get one online
 

@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 480" role="img"
+     aria-label="Блок живлення 24 В, шлюз OSELIA Hearth DI16-G і вимикач на DIN-рейці"
+     font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif">
+  <rect x="6" y="6" width="828" height="468" rx="16" fill="#121419" stroke="#262b36"/>
+
+  <!-- ── DIN rail ───────────────────────────────────────────── -->
+  <g>
+    <rect x="70" y="52" width="548" height="14" rx="2" fill="#5b606c"/>
+    <rect x="70" y="52" width="548" height="4"  rx="2" fill="#727885"/>
+    <g fill="#383d47">
+      <rect x="104" y="57" width="18" height="5" rx="1"/><rect x="156" y="57" width="18" height="5" rx="1"/>
+      <rect x="208" y="57" width="18" height="5" rx="1"/><rect x="260" y="57" width="18" height="5" rx="1"/>
+      <rect x="312" y="57" width="18" height="5" rx="1"/><rect x="364" y="57" width="18" height="5" rx="1"/>
+      <rect x="416" y="57" width="18" height="5" rx="1"/><rect x="468" y="57" width="18" height="5" rx="1"/>
+      <rect x="520" y="57" width="18" height="5" rx="1"/><rect x="572" y="57" width="18" height="5" rx="1"/>
+    </g>
+    <text x="192" y="47" font-size="11" fill="#6f7689" text-anchor="middle">DIN-рейка</text>
+  </g>
+
+  <!-- ── AC mains source ────────────────────────────────────── -->
+  <g>
+    <circle cx="40" cy="250" r="19" fill="none" stroke="#8b93a5" stroke-width="2"/>
+    <path d="M31 250 q4.5 -7 9 0 t9 0" fill="none" stroke="#8b93a5" stroke-width="2"/>
+    <text x="40" y="290" font-size="10.5" fill="#9aa1b1" text-anchor="middle">~230 В</text>
+    <path d="M59 244 H82" stroke="#8b93a5" stroke-width="2"/>
+    <path d="M59 258 H82" stroke="#8b93a5" stroke-width="2"/>
+  </g>
+
+  <!-- ── Power supply module (light-gray DIN PSU) ───────────── -->
+  <g>
+    <rect x="120" y="60" width="20" height="9" rx="2" fill="#9aa0ab"/>
+    <rect x="86" y="66" width="92" height="250" rx="7" fill="#d8d6ce" stroke="#b4b2a8" stroke-width="1.5"/>
+    <rect x="94" y="74" width="76" height="40" rx="3" fill="#c8c6bd"/>
+    <g stroke="#b0aea4" stroke-width="1.4">
+      <path d="M102 82 H162"/><path d="M102 90 H162"/><path d="M102 98 H162"/><path d="M102 106 H162"/>
+    </g>
+    <text x="132" y="160" font-size="20" font-weight="700" fill="#2a2d33" text-anchor="middle">24 В</text>
+    <text x="132" y="180" font-size="10" fill="#6c6f78" text-anchor="middle">Блок</text>
+    <text x="132" y="194" font-size="10" fill="#6c6f78" text-anchor="middle">живлення</text>
+    <!-- AC input terminal block (left) -->
+    <rect x="80" y="226" width="9" height="42" rx="2" fill="#2f8f5f" stroke="#247048"/>
+    <circle cx="84.5" cy="240" r="2.4" fill="#e08a3c"/><circle cx="84.5" cy="254" r="2.4" fill="#e08a3c"/>
+    <!-- DC output terminal block (bottom) -->
+    <rect x="104" y="300" width="56" height="18" rx="3" fill="#2f8f5f" stroke="#247048"/>
+    <circle cx="118" cy="309" r="2.6" fill="#e08a3c"/><circle cx="146" cy="309" r="2.6" fill="#e08a3c"/>
+    <text x="118" y="296" font-size="8.5" fill="#3a3d44" text-anchor="middle">+24В</text>
+    <text x="146" y="296" font-size="8.5" fill="#3a3d44" text-anchor="middle">0В</text>
+  </g>
+
+  <!-- ── OSELIA Hearth DI16-G (real module look; English silkscreen) ── -->
+  <g>
+    <rect x="300" y="60" width="20" height="9" rx="2" fill="#9aa0ab"/>
+    <rect x="206" y="66" width="392" height="250" rx="9" fill="#dcdad2" stroke="#b6b4ab" stroke-width="1.5"/>
+    <g fill="#c6c4bb" stroke="#b0aea4"><circle cx="222" cy="82" r="5"/><circle cx="582" cy="82" r="5"/><circle cx="222" cy="300" r="5"/><circle cx="582" cy="300" r="5"/></g>
+
+    <rect x="240" y="62" width="320" height="22" rx="3" fill="#2f8f5f" stroke="#247048"/>
+    <g fill="#16181d">
+      <rect x="248" y="68" width="11" height="11" rx="1.5"/><rect x="267" y="68" width="11" height="11" rx="1.5"/>
+      <rect x="286" y="68" width="11" height="11" rx="1.5"/><rect x="305" y="68" width="11" height="11" rx="1.5"/>
+      <rect x="324" y="68" width="11" height="11" rx="1.5"/><rect x="343" y="68" width="11" height="11" rx="1.5"/>
+      <rect x="362" y="68" width="11" height="11" rx="1.5"/><rect x="381" y="68" width="11" height="11" rx="1.5"/>
+      <rect x="400" y="68" width="11" height="11" rx="1.5"/><rect x="419" y="68" width="11" height="11" rx="1.5"/>
+      <rect x="438" y="68" width="11" height="11" rx="1.5"/><rect x="457" y="68" width="11" height="11" rx="1.5"/>
+      <rect x="476" y="68" width="11" height="11" rx="1.5"/><rect x="495" y="68" width="11" height="11" rx="1.5"/>
+      <rect x="514" y="68" width="11" height="11" rx="1.5"/><rect x="533" y="68" width="11" height="11" rx="1.5"/>
+    </g>
+    <text x="400" y="98" font-size="9" fill="#6c6f78" text-anchor="middle" letter-spacing="0.5">24 V DISCRETE INPUTS · I1 … I16</text>
+
+    <rect x="222" y="108" width="300" height="160" rx="5" fill="#f5f4ef" stroke="#dcdad1"/>
+    <g transform="translate(248,140)">
+      <path d="M0 -13 L12.4 -4 L7.6 10.5 L-7.6 10.5 L-12.4 -4 Z" fill="none" stroke="#3a9b6b" stroke-width="2.4" stroke-linejoin="round"/>
+      <circle cx="0" cy="1" r="2.8" fill="#3a9b6b"/>
+    </g>
+    <text x="270" y="136" font-size="13" font-weight="800" fill="#2a2d33" letter-spacing="1">OSELIA</text>
+    <text x="270" y="150" font-size="7.5" fill="#7c7f88" letter-spacing="1.5">SMART AUTOMATION</text>
+    <text x="240" y="196" font-size="24" font-weight="800" fill="#23262c">Hearth</text>
+    <text x="338" y="196" font-size="15" font-weight="600" fill="#6c6f78">DI16-G</text>
+    <text x="240" y="214" font-size="9.5" fill="#6c6f78">16-channel 24 V discrete input gateway</text>
+    <g font-size="9" fill="#3a3d44" text-anchor="middle">
+      <rect x="240" y="228" width="56" height="20" rx="10" fill="#fff" stroke="#cfcdc4"/><text x="268" y="241">MQTT</text>
+      <rect x="302" y="228" width="104" height="20" rx="10" fill="#fff" stroke="#cfcdc4"/><text x="354" y="241">Home Assistant</text>
+      <rect x="412" y="228" width="96" height="20" rx="10" fill="#fff" stroke="#cfcdc4"/><text x="460" y="241">1× · 2× · LONG</text>
+    </g>
+
+    <rect x="240" y="278" width="44" height="30" rx="3" fill="#9fa4ab" stroke="#7d828a"/>
+    <rect x="252" y="276" width="20" height="6" rx="1" fill="#7d828a"/>
+    <text x="262" y="272" font-size="8" fill="#6c6f78" text-anchor="middle">ETHERNET</text>
+
+    <rect x="430" y="284" width="150" height="22" rx="3" fill="#2f8f5f" stroke="#247048"/>
+    <g fill="#16181d">
+      <rect x="440" y="290" width="11" height="11" rx="1.5"/><rect x="459" y="290" width="11" height="11" rx="1.5"/>
+      <rect x="486" y="290" width="9" height="11" rx="1.5"/><rect x="500" y="290" width="9" height="11" rx="1.5"/>
+      <rect x="514" y="290" width="9" height="11" rx="1.5"/><rect x="528" y="290" width="9" height="11" rx="1.5"/>
+    </g>
+    <text x="450" y="280" font-size="8" fill="#6c6f78" text-anchor="middle">24V+  GND</text>
+    <text x="525" y="280" font-size="8" fill="#6c6f78" text-anchor="middle">I²C BUS</text>
+  </g>
+
+  <!-- ── Wall switch ────────────────────────────────────────── -->
+  <g>
+    <rect x="648" y="150" width="116" height="120" rx="12" fill="#e8e6df" stroke="#c4c2b9" stroke-width="1.5"/>
+    <rect x="676" y="170" width="60" height="62" rx="9" fill="#d3d0c7" stroke="#bdbab0"/>
+    <path d="M686 218 L726 184" stroke="#9a978d" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="726" cy="184" r="6" fill="#ff8c5a"/>
+    <text x="706" y="252" font-size="12" fill="#cfd3dc" text-anchor="middle">Вимикач</text>
+    <rect x="682" y="265" width="12" height="10" rx="1.5" fill="#0c0d11" stroke="#525a6b"/>
+    <rect x="718" y="265" width="12" height="10" rx="1.5" fill="#0c0d11" stroke="#525a6b"/>
+  </g>
+
+  <!-- ── Wiring ─────────────────────────────────────────────── -->
+  <path d="M118 318 V356 H452 V306" fill="none" stroke="#ff6a2b" stroke-width="2.5"/>
+  <path d="M146 318 V340 H468 V306" fill="none" stroke="#8b93a5" stroke-width="2.5"/>
+  <path d="M452 306 V332 H612 V270 H688" fill="none" stroke="#ff6a2b" stroke-width="2.5"/>
+  <path d="M724 265 V300 H628 V44 H253 V62" fill="none" stroke="#ffb02e" stroke-width="2.5"/>
+  <text x="300" y="38" font-size="9" fill="#ffb02e">вимикач → вхід I1</text>
+  <path d="M262 308 V336 H300" fill="none" stroke="#45b6c4" stroke-width="2.5"/>
+  <path d="M296 331 l8 5 l-8 5 z" fill="#45b6c4"/>
+  <text x="312" y="333" font-size="12" fill="#cfd3dc">Ethernet</text>
+  <text x="312" y="349" font-size="11" fill="#9aa1b1">→ Home Assistant</text>
+</svg>
