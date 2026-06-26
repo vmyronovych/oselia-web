@@ -76,11 +76,11 @@
     <rect x="218" y="104" width="368" height="162" rx="6" fill="#f5f4ef" stroke="#dcdad1"/>
     <svg x="342" y="110" width="120" height="61" viewBox="0 53 92 49" preserveAspectRatio="xMidYMid meet">
       <g transform="matrix(1 0 0 -1 0 172.91)">
-        <path d="M32.88,93.54 L58.96,93.54 L58.96,109.98 L45.92,117.92 L32.88,109.98 Z " fill="#0d9488"/>
-        <circle cx="45.92" cy="102.33" r="3.26" fill="#ffffff"/>
-        <circle cx="45.92" cy="102.33" r="1.28" fill="#0d9488"/>
+        <g transform="translate(45.92,105.73) scale(0.3,-0.3)"><circle r="45" fill="none" stroke="#3b86e8" stroke-width="4" stroke-dasharray="57.5 13.2" stroke-linecap="round" transform="rotate(-45)"/><circle r="29" fill="none" stroke="#3b86e8" stroke-width="5"/><circle r="12.5" fill="#3b86e8"/></g>
+        
+        
         <text transform="translate(26.17,82.20) scale(1,-1)" font-family="Helvetica, Arial, sans-serif" font-weight="bold" font-size="9.40" fill="#1f2937">OSELIA</text>
-        <text transform="translate(23.14,72.00) scale(1,-1)" font-family="Helvetica, Arial, sans-serif" font-weight="normal" font-size="3.50" letter-spacing="0.35" fill="#0f766e">SMART AUTOMATION</text>
+        <text transform="translate(23.14,72.00) scale(1,-1)" font-family="Helvetica, Arial, sans-serif" font-weight="normal" font-size="3.50" letter-spacing="0.35" fill="#2f6bba">SMART AUTOMATION</text>
       </g>
     </svg>
     <text x="402" y="206" font-size="24" font-weight="800" fill="#23262c" text-anchor="middle">Hearth <tspan font-size="15" font-weight="600" fill="#6c6f78">DI16-G</tspan></text>
