@@ -1,0 +1,65 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" type="image/svg+xml" href="/oselia-web/pr-9/favicon.svg"><title>Naming Switches &amp; Automations — OSELIA</title><meta name="description" content="Label your inputs in Home Assistant and react to single / double / long presses."><meta property="og:title" content="Naming Switches &#38; Automations — OSELIA"><meta property="og:description" content="Label your inputs in Home Assistant and react to single / double / long presses."><meta property="og:type" content="website"><meta name="generator" content="Astro v5.18.2"><link rel="stylesheet" href="/oselia-web/pr-9/_astro/_id_.-IGHMm-W.css"><meta name="robots" content="noindex,nofollow"></head> <body> <header class="site-header"> <div class="wrap"> <a class="brand" href="/oselia-web/pr-9/"> <svg class="mark" viewBox="0 0 100 100" fill="none" aria-hidden="true"><circle cx="50" cy="50" r="45" stroke="currentColor" stroke-width="4" stroke-dasharray="57.5 13.2" stroke-linecap="round" transform="rotate(-45 50 50)"></circle><circle cx="50" cy="50" r="29" stroke="currentColor" stroke-width="5"></circle><circle cx="50" cy="50" r="12.5" fill="currentColor"></circle></svg>
+OSELIA
+</a> <nav class="nav"> <a class="hide-sm" href="/oselia-web/pr-9/products/hearth-di16g">Hearth DI16-G</a><a class="hide-sm" href="/oselia-web/pr-9/products/ember-di16x">Ember DI-16X</a><a class="hide-sm" href="/oselia-web/pr-9/docs/getting-started">Getting Started</a> <div class="lang-switch" role="group" aria-label="Language"> <a href="/oselia-web/pr-9/docs/automations/" class="active" aria-current="true" lang="en">EN</a><a href="/oselia-web/pr-9/uk/docs/automations/" class lang="uk">UK</a> </div> <a class="btn btn-ghost hide-sm" href="https://github.com/vmyronovych/oselia" target="_blank" rel="noopener">GitHub</a> </nav> </div> </header> <main>  <div class="wrap"> <div class="docs"> <nav class="docs-sidebar" aria-label="Documentation"> <div class="group"> <div class="group-title">Getting Started</div> <a href="/oselia-web/pr-9/docs/getting-started" class> Getting Started </a><a href="/oselia-web/pr-9/docs/ha-integration" class> Home Assistant Integration </a><a href="/oselia-web/pr-9/docs/automations" class="active" aria-current="page"> Naming Switches &amp; Automations </a> </div><div class="group"> <div class="group-title">Reference</div> <a href="/oselia-web/pr-9/docs/troubleshooting" class> Troubleshooting </a> </div> </nav> <article class="prose"> <h1>Naming Switches &amp; Automations</h1>  <h2 id="naming-your-switches">Naming your switches</h2>
+<p>You don’t name switches in the wizard. Every input shows up in Home Assistant as
+<code>board&#x3C;N>_input&#x3C;M></code>. To label them:</p>
+<ol>
+<li>Walk the house and press each physical switch.</li>
+<li>In Home Assistant, watch the device’s triggers light up as you press, and rename
+each one to the room/function it controls.</li>
+</ol>
+<p>This is just renaming in the Home Assistant UI — no re-flashing.</p>
+<h2 id="reacting-to-a-press">Reacting to a press</h2>
+<p>Each input reports <strong>how</strong> it was pressed, so one physical switch can do more than one
+thing — e.g. a <strong>single</strong> tap turns a light on, a <strong>long</strong> hold turns it off.</p>
+<blockquote>
+<p><strong>Out of the box you get <code>single</code> and <code>long</code>.</strong> <code>double</code> is only emitted if
+<code>DOUBLE_GAP_MS > 0</code> in the firmware config (off by default, so a single tap fires
+instantly). Leave it off unless you actually use double-tap.</p>
+</blockquote>
+<h3 id="option-a--the-home-assistant-ui-no-yaml">Option A — the Home Assistant UI (no YAML)</h3>
+<p>The gateway advertises every input/gesture as a Home Assistant <strong>device trigger</strong>:</p>
+<ol>
+<li><strong>Settings → Automations &#x26; scenes → Create automation → empty automation</strong>.</li>
+<li><strong>Add trigger → Device</strong>, pick <strong>“Hearth”</strong>, then choose the input and press type:
+<ul>
+<li><strong>”… button short press”</strong> = a <strong>single</strong> tap</li>
+<li><strong>”… button long press”</strong> = a <strong>long</strong> hold</li>
+<li><strong>”… button double press”</strong> appears only if you enabled <code>double</code>.</li>
+</ul>
+</li>
+<li><strong>Add action</strong> — e.g. <em>Light → Toggle</em>, pick your light. Save.</li>
+</ol>
+<p>Make one automation for the single press and a second for the long press if you want
+each to do something different.</p>
+<h3 id="option-b--yaml-for-rest-calls--advanced-actions">Option B — YAML (for REST calls / advanced actions)</h3>
+<p>Each gesture is also published to MQTT:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>hearth/&#x3C;device_id>/board&#x3C;B>/input&#x3C;P>/action      payload: single | double | long</span></span></code></pre>
+<p>Find <code>&#x3C;device_id></code> with <code>mosquitto_sub -h &#x3C;BROKER_IP> -t 'hearth/+/status' -v</code>, or read
+it off the device page in Home Assistant. Then trigger directly on the topic:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#E1E4E8">- </span><span style="color:#85E89D">alias</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"Hall light ON — board1 input1 single"</span></span>
+<span class="line"><span style="color:#85E89D">  triggers</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#85E89D">trigger</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">mqtt</span></span>
+<span class="line"><span style="color:#85E89D">      topic</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">hearth/&#x3C;device_id>/board1/input1/action</span></span>
+<span class="line"><span style="color:#85E89D">      payload</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">single</span></span>
+<span class="line"><span style="color:#85E89D">  actions</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#85E89D">action</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">light.turn_on</span></span>
+<span class="line"><span style="color:#85E89D">      target</span><span style="color:#E1E4E8">: { </span><span style="color:#85E89D">entity_id</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">light.hall</span><span style="color:#E1E4E8"> }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">- </span><span style="color:#85E89D">alias</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"Hall light OFF — board1 input1 long"</span></span>
+<span class="line"><span style="color:#85E89D">  triggers</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#85E89D">trigger</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">mqtt</span></span>
+<span class="line"><span style="color:#85E89D">      topic</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">hearth/&#x3C;device_id>/board1/input1/action</span></span>
+<span class="line"><span style="color:#85E89D">      payload</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">long</span></span>
+<span class="line"><span style="color:#85E89D">  actions</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#85E89D">action</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">light.turn_off</span></span>
+<span class="line"><span style="color:#85E89D">      target</span><span style="color:#E1E4E8">: { </span><span style="color:#85E89D">entity_id</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">light.hall</span><span style="color:#E1E4E8"> }</span></span></code></pre>
+<blockquote>
+<p>Replace <code>&#x3C;device_id></code>, the board/input numbers, and the entity ids with yours. After
+editing YAML, reload in <strong>Developer Tools → YAML → Reload automations</strong>. Tip: watch
+presses arrive live with <code>mosquitto_sub -h &#x3C;BROKER_IP> -t 'hearth/#' -v</code> while you tap.</p>
+</blockquote>
+<h2 id="per-input-event-entities">Per-input event entities</h2>
+<p>Beyond device triggers, each input is also an <code>event</code> entity
+(<code>event.hearth_board&#x3C;B>_input&#x3C;N></code>) with <code>single</code> / <code>double</code> / <code>long</code> event types — the
+modern, dashboard- and logbook-friendly way to react to presses.</p>  </article> </div> </div>  </main> <footer class="site-footer"> <div class="wrap"> <div>© 2026 OSELIA — a local-first, wired smart-home system.</div> <div style="display:flex; gap:1.2rem; flex-wrap:wrap;"> <a href="/oselia-web/pr-9/docs/getting-started">Docs</a> <a href="https://github.com/vmyronovych/oselia-hearth-di16g-firmware" target="_blank" rel="noopener">Firmware</a> <a href="https://github.com/vmyronovych/oselia-hearth-di16g-ha" target="_blank" rel="noopener">HA Integration</a> <a href="/oselia-web/pr-9/admin/">Edit (CMS)</a> </div> </div> </footer> </body></html>
