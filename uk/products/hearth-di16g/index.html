@@ -8,12 +8,16 @@ OSELIA
 входів</strong> через ланцюг розширювачів <a href="/oselia-web/uk/products/ember-di16x">Ember DI-16X</a> на
 спільній польовій шині I²C. Один шлюз, одне MQTT-з’єднання, один пристрій у Home
 Assistant.</p>
-<h2 id="як-це-поєднується">Як це поєднується</h2>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>Вимикач ─ 24 В ─▶ Hearth DI16-G ─ Ethernet ─▶ MQTT-брокер ─▶ Home Assistant</span></span>
-<span class="line"><span>                       │</span></span>
-<span class="line"><span>                       └─ шина I²C ─▶ Ember DI-16X ─▶ Ember DI-16X ... (×7)</span></span></code></pre>
-<p>Прошивка класифікує кожне натискання й публікує його; інтеграція OSELIA для Home
-Assistant перетворює це на сутності, тригери пристрою та готову панель.</p>
+<h2 id="як-це-підключається">Як це підключається</h2>
+<p>Мінімальна інсталяція — три частини на DIN-рейці: <strong>блок живлення 24 В</strong>, <strong>шлюз
+Hearth</strong> і ваші <strong>настінні вимикачі</strong>. Мережа живить блок живлення; 24 В живлять
+Hearth; кожен вимикач заводить 24 В на ізольований вхід. Ethernet передає все до Home
+Assistant.</p>
+<p><img src="/oselia-web/diagrams/hearth-wiring-uk.svg" alt="Блок живлення 24 В, шлюз OSELIA Hearth і вимикач на DIN-рейці"></p>
+<p>Потрібно більше за 16 входів? Додайте розширювачі <a href="/oselia-web/uk/products/ember-di16x">Ember DI-16X</a>
+на спільну польову шину I²C. Прошивка класифікує кожне натискання й публікує його;
+інтеграція OSELIA для Home Assistant перетворює це на сутності, тригери пристрою та
+готову панель.</p>
 <h2 id="запустити-в-роботу">Запустити в роботу</h2>
 <p>Посібник <a href="/oselia-web/uk/docs/getting-started">Початок роботи</a> проведе вас крізь провіженінг
 нового модуля через USB — одна команда, кілька запитань, готово — та встановлення

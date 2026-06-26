@@ -7,12 +7,16 @@ becomes a clean, classified event in Home Assistant.</p>
 <p>It reads 16 isolated 24 V inputs on board, and scales to <strong>128 inputs</strong> by chaining
 <a href="/oselia-web/products/ember-di16x">Ember DI-16X</a> expanders on the shared I²C field bus. One
 gateway, one MQTT connection, one device in Home Assistant.</p>
-<h2 id="how-it-fits-together">How it fits together</h2>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>Wall switch ─ 24 V ─▶ Hearth DI16-G ─ Ethernet ─▶ MQTT broker ─▶ Home Assistant</span></span>
-<span class="line"><span>                          │</span></span>
-<span class="line"><span>                          └─ I²C field bus ─▶ Ember DI-16X ─▶ Ember DI-16X ... (×7)</span></span></code></pre>
-<p>The firmware classifies each press and publishes it; the OSELIA Home Assistant
-integration turns those into entities, device triggers and a curated dashboard.</p>
+<h2 id="how-its-wired">How it’s wired</h2>
+<p>A minimal install is three parts on the DIN rail: a <strong>24 V power supply</strong>, the
+<strong>Hearth gateway</strong>, and your <strong>wall switches</strong>. Mains feeds the PSU; 24 V powers the
+Hearth; each switch loops 24 V into an isolated input. Ethernet carries everything to
+Home Assistant.</p>
+<p><img src="/oselia-web/diagrams/hearth-wiring-en.svg" alt="A 24 V power supply, the OSELIA Hearth gateway and a wall switch mounted on a DIN rail"></p>
+<p>Need more than 16 inputs? Add <a href="/oselia-web/products/ember-di16x">Ember DI-16X</a> expanders on the
+shared I²C field bus. The firmware classifies each press and publishes it; the OSELIA
+Home Assistant integration turns those into entities, device triggers and a curated
+dashboard.</p>
 <h2 id="get-one-online">Get one online</h2>
 <p>The <a href="/oselia-web/docs/getting-started">Getting Started</a> guide walks you through provisioning a
 fresh unit over USB — one command, a few prompts, done — and installing the Home

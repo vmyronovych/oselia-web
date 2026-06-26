@@ -4,15 +4,17 @@ OSELIA
 <p>The <strong>OSELIA Ember (DI-16X)</strong> is the expansion module for an OSELIA installation.
 It carries 16 more isolated 24 V inputs and shares the <a href="/oselia-web/products/hearth-di16g">Hearth gateway’s</a>
 I²C field bus, so adding inputs is a matter of snapping another module onto the rail.</p>
+<h2 id="how-its-wired">How it’s wired</h2>
+<p>An Ember is wired like the gateway — a 24 V supply, the module and your wall switches
+on the DIN rail — but it has <strong>no Ethernet</strong>. Instead, its <strong>I²C bus links back to a
+<a href="/oselia-web/products/hearth-di16g">Hearth DI16-G</a> gateway</strong>, which is the board that talks to
+Home Assistant.</p>
+<p><img src="/oselia-web/diagrams/ember-wiring-en.svg" alt="A 24 V power supply, an OSELIA Ember DI-16X expander and a wall switch on a DIN rail, its I²C bus linked to a Hearth gateway"></p>
 <h2 id="scaling-up">Scaling up</h2>
 <p>A single <a href="/oselia-web/products/hearth-di16g">Hearth DI16-G</a> handles its own 16 inputs plus up
 to <strong>seven Ember modules</strong> — <code>0x21</code> through <code>0x27</code> on the bus — for <strong>128 inputs</strong>
 total. Board numbering follows bus position, so inputs stay predictable:</p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>Hearth (board 1, 0x20) ─┐</span></span>
-<span class="line"><span>Ember  (board 2, 0x21) ─┤</span></span>
-<span class="line"><span>Ember  (board 3, 0x22) ─┤  shared SDA/SCL + wired-OR INT</span></span>
-<span class="line"><span>   ...                  ─┤</span></span>
-<span class="line"><span>Ember  (board 8, 0x27) ─┘</span></span></code></pre>
+<p><img src="/oselia-web/diagrams/scaling-en.svg" alt="One Hearth gateway plus up to seven Ember expanders chained on a shared I²C field bus, addresses 0x20 to 0x27"></p>
 <h2 id="adding-one">Adding one</h2>
 <p>There’s nothing to provision on an Ember itself — it’s discovered by the gateway.
 See <a href="/oselia-web/docs/getting-started#adding-an-ember-expander">Getting Started</a> for the

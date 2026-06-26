@@ -5,15 +5,17 @@ OSELIA
 ще 16 ізольованих входів 24 В і поділяє польову шину I²C зі
 <a href="/oselia-web/uk/products/hearth-di16g">шлюзом Hearth</a>, тож додавання входів — це просто ще
 один модуль, клацнутий на рейку.</p>
+<h2 id="як-це-підключається">Як це підключається</h2>
+<p>Ember підключається як шлюз — блок живлення 24 В, модуль і ваші настінні вимикачі на
+DIN-рейці — але він <strong>не має Ethernet</strong>. Натомість його <strong>шина I²C з’єднується зі
+шлюзом <a href="/oselia-web/uk/products/hearth-di16g">Hearth DI16-G</a></strong>, який і спілкується з Home
+Assistant.</p>
+<p><img src="/oselia-web/diagrams/ember-wiring-uk.svg" alt="Блок живлення 24 В, розширювач OSELIA Ember DI-16X і вимикач на DIN-рейці; шина I²C з&#x27;єднана зі шлюзом Hearth"></p>
 <h2 id="масштабування">Масштабування</h2>
 <p>Один <a href="/oselia-web/uk/products/hearth-di16g">Hearth DI16-G</a> обслуговує власні 16 входів плюс до
 <strong>семи модулів Ember</strong> — <code>0x21</code>–<code>0x27</code> на шині — разом <strong>128 входів</strong>. Нумерація
 плат відповідає позиції на шині, тож входи лишаються передбачуваними:</p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>Hearth (плата 1, 0x20) ─┐</span></span>
-<span class="line"><span>Ember  (плата 2, 0x21) ─┤</span></span>
-<span class="line"><span>Ember  (плата 3, 0x22) ─┤  спільні SDA/SCL + переривання wired-OR</span></span>
-<span class="line"><span>   ...                  ─┤</span></span>
-<span class="line"><span>Ember  (плата 8, 0x27) ─┘</span></span></code></pre>
+<p><img src="/oselia-web/diagrams/scaling-uk.svg" alt="Один шлюз Hearth плюс до семи розширювачів Ember у ланцюгу на спільній шині I²C, адреси 0x20–0x27"></p>
 <h2 id="як-додати">Як додати</h2>
 <p>На самому Ember немає чого провіжинити — його виявляє шлюз. Див.
 <a href="/oselia-web/uk/docs/getting-started#%D0%B4%D0%BE%D0%B4%D0%B0%D0%B2%D0%B0%D0%BD%D0%BD%D1%8F-%D1%80%D0%BE%D0%B7%D1%88%D0%B8%D1%80%D1%8E%D0%B2%D0%B0%D1%87%D0%B0-ember">Початок роботи</a> щодо кроків
