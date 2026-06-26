@@ -1,0 +1,74 @@
+<!DOCTYPE html><html lang="uk"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" type="image/svg+xml" href="/oselia-web/pr-14/favicon.svg"><title>Усунення несправностей — OSELIA</title><meta name="description" content="Поширені повідомлення під час провіженінгу та як їх виправити, а також перегляд логів наживо через USB."><meta property="og:title" content="Усунення несправностей — OSELIA"><meta property="og:description" content="Поширені повідомлення під час провіженінгу та як їх виправити, а також перегляд логів наживо через USB."><meta property="og:type" content="website"><meta name="generator" content="Astro v5.18.2"><link rel="stylesheet" href="/oselia-web/pr-14/_astro/_id_.DrYBr03T.css"><meta name="robots" content="noindex,nofollow"></head> <body> <header class="site-header"> <div class="wrap"> <a class="brand" href="/oselia-web/pr-14/uk/"> <svg class="mark" viewBox="0 0 100 100" fill="none" aria-hidden="true"><rect x="8" y="58" width="84" height="9" rx="4.5" fill="currentColor" opacity=".32"></rect><rect x="22" y="30" width="15" height="28" rx="3.5" stroke="currentColor" stroke-width="4.5"></rect><rect x="42.5" y="30" width="15" height="28" rx="3.5" fill="currentColor"></rect><rect x="63" y="30" width="15" height="28" rx="3.5" stroke="currentColor" stroke-width="4.5"></rect></svg>
+OSELIA
+</a> <nav class="nav"> <a class="hide-sm" href="/oselia-web/pr-14/uk/products/hearth-di16g">Hearth DI16-G</a><a class="hide-sm" href="/oselia-web/pr-14/uk/products/ember-di16x">Ember DI-16X</a><a class="hide-sm" href="/oselia-web/pr-14/uk/docs/getting-started">Початок роботи</a> <div class="lang-switch" role="group" aria-label="Мова"> <a href="/oselia-web/pr-14/docs/troubleshooting/" class lang="en">EN</a><a href="/oselia-web/pr-14/uk/docs/troubleshooting/" class="active" aria-current="true" lang="uk">UK</a> </div> <a class="btn btn-ghost hide-sm" href="https://github.com/vmyronovych/oselia" target="_blank" rel="noopener">GitHub</a> </nav> </div> </header> <main>  <div class="wrap"> <div class="docs"> <nav class="docs-sidebar" aria-label="Documentation"> <div class="group"> <div class="group-title">Початок роботи</div> <a href="/oselia-web/pr-14/uk/docs/getting-started" class> Початок роботи </a><a href="/oselia-web/pr-14/uk/docs/ha-integration" class> Інтеграція Home Assistant </a><a href="/oselia-web/pr-14/uk/docs/automations" class> Назви вимикачів та автоматизації </a> </div><div class="group"> <div class="group-title">Довідка</div> <a href="/oselia-web/pr-14/uk/docs/troubleshooting" class="active" aria-current="page"> Усунення несправностей </a> </div> </nav> <article class="prose"> <h1>Усунення несправностей</h1>  <h2 id="поширені-повідомлення">Поширені повідомлення</h2>
+<div class="table-wrap">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Повідомлення</th><th>Ймовірна причина / виправлення</th></tr></thead><tbody><tr><td><code>No RP2040-ETH detected over USB</code></td><td>Кабель не під’єднано або не той порт — спробуйте <code>--port</code>. Якщо плата зникла <em>після</em> провіженінгу, відновіть через <strong>BOOTSEL</strong> (тримайте BOOT під час під’єднання), потім перезапустіть.</td></tr><tr><td><code>No MicroPython detected</code> / невідповідність версії</td><td>Прийміть пропозицію майстра прошити закріплену збірку (потрібен інтернет, або передайте <code>--mpy-uf2 PATH</code>).</td></tr><tr><td><code>BOOTSEL drive (RPI-RP2) didn't appear</code></td><td>Плата не ввійшла в BOOTSEL; зробіть BOOT+RESET вручну й повторіть.</td></tr><tr><td><code>could not enter raw repl</code></td><td>Вотчдог робочого модуля бореться з <code>mpremote</code>. Перепідключіть (або натисніть RESET) і перезапустіть.</td></tr><tr><td><code>cannot reach &#x3C;ip>:&#x3C;port></code></td><td>Неправильний IP/порт брокера, брокер вимкнено, або ноутбук в іншій мережі.</td></tr><tr><td><code>broker refused: bad username or password</code></td><td>Виправте облікові дані й перезапустіть.</td></tr><tr><td><code>FAIL (ethernet)</code></td><td>Кабель Ethernet / IP брокера недоступні <strong>з мережі шлюзу</strong>.</td></tr><tr><td><code>FAIL (mqtt)</code></td><td>Брокер доступний, але логін/сесія не вдалися — перевірте IP/порт і облікові дані.</td></tr><tr><td><code>FAIL (mcp)</code></td><td>Плата входів не відповідає — перевірте проводку I²C і що кількість плат відповідає встановленим чипам.</td></tr><tr><td><code>zeroconf package missing</code></td><td>Прийміть пропозицію майстра встановити його, або відмовтеся й введіть IP брокера вручну.</td></tr></tbody></table></div>
+<h2 id="перегляд-логів-наживо-через-usb">Перегляд логів наживо через USB</h2>
+<p>Коли модуль не виходить онлайн, дивіться повне завантаження через USB на платі, що
+вже працює:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">python3</span><span style="color:#9ECBFF"> provision.py</span><span style="color:#79B8FF"> --monitor</span></span></code></pre>
+<p>Це <strong>не прошиває й не переконфігуровує</strong> нічого. Команда транслює лог прошивки — лінк
+Ethernet, плати входів, що виявлено, отриманий IP, підключення MQTT, HA discovery —
+з помилками червоним і попередженнями жовтим. Натисніть Ctrl-C, щоб зупинити.</p>
+<p>Щоб слухати стабільний польовий модуль <strong>без перезапуску</strong>, додайте
+<code>--monitor-passive</code>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">python3</span><span style="color:#9ECBFF"> provision.py</span><span style="color:#79B8FF"> --monitor</span><span style="color:#79B8FF"> --monitor-passive</span></span></code></pre>
+<h2 id="виведення-модуля-з-експлуатації">Виведення модуля з експлуатації</h2>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># Повне виведення: прибрати з Home Assistant ТА стерти плату.</span></span>
+<span class="line"><span style="color:#B392F0">python3</span><span style="color:#9ECBFF"> provision.py</span><span style="color:#79B8FF"> --uninstall-all</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># ...або окремі кроки:</span></span>
+<span class="line"><span style="color:#B392F0">python3</span><span style="color:#9ECBFF"> provision.py</span><span style="color:#79B8FF"> --uninstall-firmware</span><span style="color:#6A737D">   # стерти файли застосунку (MicroPython лишається)</span></span>
+<span class="line"><span style="color:#B392F0">python3</span><span style="color:#9ECBFF"> provision.py</span><span style="color:#79B8FF"> --erase-flash</span><span style="color:#6A737D">          # стерти ВСЕ, включно з MicroPython</span></span>
+<span class="line"><span style="color:#B392F0">python3</span><span style="color:#9ECBFF"> provision.py</span><span style="color:#79B8FF"> --uninstall-ha</span><span style="color:#6A737D">         # прибрати з Home Assistant</span></span></code></pre>
+<p><code>--erase-flash</code> стирає всю flash-пам’ять, лишаючи «голий» RP2040 у BOOTSEL. Команда
+спершу підтверджує (незворотно). Щоб повторно використати плату, перезапустіть
+<code>provision.py</code>.</p>  </article> </div> </div>  </main> <footer class="site-footer"> <div class="wrap"> <div>© 2026 OSELIA — локальна дротова система розумного дому.</div> <div style="display:flex; gap:1.2rem; flex-wrap:wrap;"> <a href="/oselia-web/pr-14/uk/docs/getting-started">Документація</a> <a href="https://github.com/vmyronovych/oselia-hearth-di16g-firmware" target="_blank" rel="noopener">Прошивка</a> <a href="https://github.com/vmyronovych/oselia-hearth-di16g-ha" target="_blank" rel="noopener">Інтеграція HA</a> <a href="/oselia-web/pr-14/admin/">Редагувати (CMS)</a> </div> </div> </footer> </body></html>
