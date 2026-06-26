@@ -1,0 +1,107 @@
+<!DOCTYPE html><html lang="uk"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" type="image/svg+xml" href="/oselia-web/pr-13/favicon.svg"><title>Початок роботи — OSELIA</title><meta name="description" content="Провіженінг OSELIA Hearth DI16-G від коробки до роботи в Home Assistant — без програмування."><meta property="og:title" content="Початок роботи — OSELIA"><meta property="og:description" content="Провіженінг OSELIA Hearth DI16-G від коробки до роботи в Home Assistant — без програмування."><meta property="og:type" content="website"><meta name="generator" content="Astro v5.18.2"><link rel="stylesheet" href="/oselia-web/pr-13/_astro/_id_.-IGHMm-W.css"><meta name="robots" content="noindex,nofollow"></head> <body> <header class="site-header"> <div class="wrap"> <a class="brand" href="/oselia-web/pr-13/uk/"> <svg class="mark" viewBox="0 0 100 100" fill="none" aria-hidden="true"><path d="M16 48 L50 19 L84 48" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></path><rect x="25" y="48" width="50" height="35" rx="7" stroke="currentColor" stroke-width="6"></rect><circle cx="50" cy="65.5" r="7.5" fill="currentColor"></circle></svg>
+OSELIA
+</a> <nav class="nav"> <a class="hide-sm" href="/oselia-web/pr-13/uk/products/hearth-di16g">Hearth DI16-G</a><a class="hide-sm" href="/oselia-web/pr-13/uk/products/ember-di16x">Ember DI-16X</a><a class="hide-sm" href="/oselia-web/pr-13/uk/docs/getting-started">Початок роботи</a> <div class="lang-switch" role="group" aria-label="Мова"> <a href="/oselia-web/pr-13/docs/getting-started/" class lang="en">EN</a><a href="/oselia-web/pr-13/uk/docs/getting-started/" class="active" aria-current="true" lang="uk">UK</a> </div> <a class="btn btn-ghost hide-sm" href="https://github.com/vmyronovych/oselia" target="_blank" rel="noopener">GitHub</a> </nav> </div> </header> <main>  <div class="wrap"> <div class="docs"> <nav class="docs-sidebar" aria-label="Documentation"> <div class="group"> <div class="group-title">Початок роботи</div> <a href="/oselia-web/pr-13/uk/docs/getting-started" class="active" aria-current="page"> Початок роботи </a><a href="/oselia-web/pr-13/uk/docs/ha-integration" class> Інтеграція Home Assistant </a><a href="/oselia-web/pr-13/uk/docs/automations" class> Назви вимикачів та автоматизації </a> </div><div class="group"> <div class="group-title">Довідка</div> <a href="/oselia-web/pr-13/uk/docs/troubleshooting" class> Усунення несправностей </a> </div> </nav> <article class="prose"> <h1>Початок роботи</h1>  <p>Цей посібник проведе новий <strong>OSELIA Hearth (DI16-G)</strong> від коробки до роботи в Home
+Assistant. Програмувати нічого не треба: ви під’єднуєте USB-кабель, запускаєте одну
+команду й відповідаєте на кілька запитань. Решту робить майстер.</p>
+<blockquote>
+<p>⚠️ <strong>Ніколи не під’єднуйте USB-C, коли живлення 24 В увімкнене.</strong> Плата не може
+живитися від USB і 24 В одночасно. <strong>Вимкніть живлення 24 В перед під’єднанням
+USB</strong> і вмикайте його лише після від’єднання USB. Для провіженінгу USB само по
+собі живить шлюз нормально.</p>
+</blockquote>
+<h2 id="перш-ніж-почати">Перш ніж почати</h2>
+<p>Вам потрібно:</p>
+<ul>
+<li><strong>Hearth</strong>, підключений (входи 24 В + <strong>під’єднаний Ethernet</strong>), з <strong>вимкненим
+живленням 24 В</strong> наразі. MicroPython <em>не обов’язково</em> мати заздалегідь — майстер
+перевірить інтерпретатор і запропонує прошити закріплену збірку, якщо її немає.</li>
+<li><strong>USB-кабель</strong> від шлюзу до ноутбука. USB живить шлюз під час провіженінгу;
+Ethernet лишається під’єднаним, щоб дотягтися до брокера.</li>
+<li><strong>Home Assistant</strong>, що вже працює в локальній мережі, з MQTT-брокером, у <strong>тій
+самій мережі</strong>, куди під’єднано Ethernet шлюзу.</li>
+<li>Ваші <strong>логін / пароль брокера</strong>, якщо брокер вимагає авторизацію.</li>
+</ul>
+<h2 id="одноразове-налаштування-ноутбука">Одноразове налаштування ноутбука</h2>
+<p>Встановіть Python 3, потім інструмент, яким майстер спілкується з платою:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">pip</span><span style="color:#9ECBFF"> install</span><span style="color:#9ECBFF"> mpremote</span></span>
+<span class="line"><span style="color:#6A737D"># опційно: краща серійна діагностика; обов’язково для --monitor-passive у Windows</span></span>
+<span class="line"><span style="color:#B392F0">pip</span><span style="color:#9ECBFF"> install</span><span style="color:#9ECBFF"> pyserial</span></span></code></pre>
+<p><code>zeroconf</code> (для автопошуку брокера) спершу не обов’язковий — майстер запропонує
+встановити його під час першого запуску.</p>
+<h2 id="провіженінг-шлюзу">Провіженінг шлюзу</h2>
+<ol>
+<li>
+<p><strong>Переконайтеся, що живлення 24 В вимкнене</strong>, потім під’єднайте шлюз до ноутбука
+через USB. Лишіть <strong>Ethernet</strong> під’єднаним; живлення 24 В лишається вимкненим на
+весь цей крок.</p>
+</li>
+<li>
+<p>З теки <code>provisioning/</code> репозиторію прошивки запустіть:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">python3</span><span style="color:#9ECBFF"> provision.py</span></span></code></pre>
+</li>
+<li>
+<p>Відповідайте на запити. Майстер <strong>знаходить MQTT-брокери в мережі автоматично</strong>
+(mDNS, потім швидке сканування порту 1883):</p>
+<div class="table-wrap">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Запит</th><th>Що робити</th></tr></thead><tbody><tr><td><code>Which MQTT broker number</code></td><td>Лише якщо знайдено кілька — введіть номер потрібного.</td></tr><tr><td><code>Broker IP or hostname</code></td><td>Лише якщо нічого не знайдено — введіть адресу брокера.</td></tr><tr><td><code>Broker username</code></td><td>Введіть, або лишіть <strong>порожнім</strong> для анонімних брокерів.</td></tr><tr><td><code>Broker password</code></td><td>Введіть (прихований), або лишіть порожнім.</td></tr></tbody></table></div>
+<p>Кількість плат входів <strong>визначається автоматично</strong> — шлюз сканує шину I²C під час
+завантаження, тож кількості у вас не питають.</p>
+</li>
+<li>
+<p>Майстер перевіряє доступність брокера <strong>перш ніж щось записувати</strong>, записує
+конфігурацію, копіює прошивку, перезапускає плату й чекає, доки вона повідомить
+<strong>online через брокер</strong>.</p>
+</li>
+<li>
+<p>За <strong><code>PASS: device … is online</code></strong> — <strong>від’єднайте USB, потім увімкніть живлення
+24 В.</strong> Шлюз перезавантажується на польовому живленні, перепідключається, і входи
+оживають.</p>
+</li>
+</ol>
+<p>Готово — шлюз тепер пристрій у Home Assistant. Далі встановіть
+<a href="/oselia-web/pr-13/uk/docs/ha-integration">інтеграцію Home Assistant</a>, щоб він з’явився під OSELIA з
+OTA-оновленнями, потім <a href="/oselia-web/pr-13/uk/docs/automations">назвіть вимикачі й створіть автоматизації</a>.</p>
+<h2 id="додавання-розширювача-ember">Додавання розширювача Ember</h2>
+<p>Модулям <a href="/oselia-web/pr-13/uk/products/ember-di16x">OSELIA Ember (DI-16X)</a> <strong>не потрібен власний
+провіженінг</strong> — шлюз виявляє їх на своїй шині I²C:</p>
+<ol>
+<li>Виставте адресні перемички модуля (A0–A2) на наступну вільну адресу (<code>0x21</code>,
+<code>0x22</code>, …).</li>
+<li>Підключіть його на спільну польову шину поруч із Hearth.</li>
+<li><strong>Перезавантажте живлення шлюзу.</strong> Він пересканує шину під час завантаження, і
+нові входи з’являться як <code>board&#x3C;N>_input&#x3C;M></code> у Home Assistant.</li>
+</ol>
+<h2 id="перенесення-шлюзу-в-іншу-мережу">Перенесення шлюзу в іншу мережу</h2>
+<p>Усе специфічне для майданчика (IP брокера, логін MQTT, DHCP/статика) живе в
+маленькому <code>site.json</code> на платі, і шлюз <strong>не</strong> переналаштовує себе сам. Щоб
+перенести: перезапустіть <code>python3 provision.py</code> на новому майданчику — він
+автоматично знайде новий брокер і запише нову конфігурацію. <strong>Перепрошивка не
+потрібна</strong> — переїзд це суто переконфігурація.</p>
+<h2 id="переконфігурація-пізніше">Переконфігурація пізніше</h2>
+<p>Запускайте <code>python3 provision.py</code> повторно на тому самому модулі будь-коли. Він
+читає наявні налаштування, пропонує їх за замовчуванням і дає змінити лише брокер,
+замінити облікові дані чи додати плату. Повторний запуск безпечний.</p>  </article> </div> </div>  </main> <footer class="site-footer"> <div class="wrap"> <div>© 2026 OSELIA — локальна дротова система розумного дому.</div> <div style="display:flex; gap:1.2rem; flex-wrap:wrap;"> <a href="/oselia-web/pr-13/uk/docs/getting-started">Документація</a> <a href="https://github.com/vmyronovych/oselia-hearth-di16g-firmware" target="_blank" rel="noopener">Прошивка</a> <a href="https://github.com/vmyronovych/oselia-hearth-di16g-ha" target="_blank" rel="noopener">Інтеграція HA</a> <a href="/oselia-web/pr-13/admin/">Редагувати (CMS)</a> </div> </div> </footer> </body></html>
