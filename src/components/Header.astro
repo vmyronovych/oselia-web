@@ -1,14 +1,30 @@
 ---
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+import { useTranslations, languages, type Lang } from '../i18n/ui';
+import { localizedPath, switchLocaleHref } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
 const nav = [
-  { href: `${base}/products/hearth-di16g`, label: 'Hearth DI16-G' },
-  { href: `${base}/products/ember-di16x`, label: 'Ember DI-16X' },
-  { href: `${base}/docs/getting-started`, label: 'Getting Started' },
+  { href: localizedPath(lang, '/products/hearth-di16g'), label: t('nav.hearth') },
+  { href: localizedPath(lang, '/products/ember-di16x'), label: t('nav.ember') },
+  { href: localizedPath(lang, '/docs/getting-started'), label: t('nav.gettingStarted') },
 ];
+
+const pathname = Astro.url.pathname;
+const localeLinks = (Object.keys(languages) as Lang[]).map((code) => ({
+  code,
+  label: languages[code],
+  href: switchLocaleHref(pathname, code),
+  active: code === lang,
+}));
 ---
 <header class="site-header">
   <div class="wrap">
-    <a class="brand" href={`${base}/`}>
+    <a class="brand" href={localizedPath(lang, '/')}>
       <svg class="mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
         <linearGradient id="hf" x1="16" y1="2" x2="16" y2="30" gradientUnits="userSpaceOnUse">
           <stop stop-color="#ff8c5a"/><stop offset="1" stop-color="#ff6a2b"/>
@@ -19,7 +35,17 @@ const nav = [
     </a>
     <nav class="nav">
       {nav.map((n) => <a class="hide-sm" href={n.href}>{n.label}</a>)}
-      <a class="btn btn-ghost" href="https://github.com/vmyronovych/oselia" target="_blank" rel="noopener">GitHub</a>
+      <div class="lang-switch" role="group" aria-label={t('lang.label')}>
+        {localeLinks.map((l) => (
+          <a
+            href={l.href}
+            class={l.active ? 'active' : ''}
+            aria-current={l.active ? 'true' : undefined}
+            lang={l.code}
+          >{l.code.toUpperCase()}</a>
+        ))}
+      </div>
+      <a class="btn btn-ghost hide-sm" href="https://github.com/vmyronovych/oselia" target="_blank" rel="noopener">{t('nav.github')}</a>
     </nav>
   </div>
 </header>

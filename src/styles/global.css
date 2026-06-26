@@ -101,6 +101,16 @@ pre code { background: none; border: none; padding: 0; color: var(--text); font-
 .nav a { color: var(--text-soft); font-weight: 500; font-size: 0.95rem; }
 .nav a:hover { color: var(--text); }
 
+/* Language switcher */
+.lang-switch { display: inline-flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.lang-switch a {
+  padding: 0.3rem 0.6rem; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.03em;
+  color: var(--text-dim); background: transparent;
+}
+.lang-switch a + a { border-left: 1px solid var(--border); }
+.lang-switch a:hover { color: var(--text); background: var(--bg-soft); }
+.lang-switch a.active { color: var(--ember-soft); background: var(--accent-glow); }
+
 /* ── Footer ──────────────────────────────────────────────────────── */
 .site-footer {
   border-top: 1px solid var(--border-soft);

@@ -1,0 +1,70 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { useTranslations, pillars, languages, type Lang } from '../../i18n/ui';
+import { entryLang, entrySlug, localePrefix, localizedPath } from '../../i18n/utils';
+
+export async function getStaticPaths() {
+  return (Object.keys(languages) as Lang[]).map((lang) => ({
+    params: { locale: localePrefix(lang) },
+    props: { lang },
+  }));
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const products = (
+  await getCollection('products', ({ id, data }) => entryLang(id) === lang && !data.draft)
+).sort((a, b) => a.data.order - b.data.order);
+---
+<BaseLayout title="OSELIA" lang={lang} description={t('home.lead')}>
+  <section class="hero">
+    <div class="wrap">
+      <span class="eyebrow">{t('home.eyebrow')}</span>
+      <h1>{t('home.title')}</h1>
+      <p class="lead">{t('home.lead')}</p>
+      <div class="cta">
+        <a class="btn btn-primary" href={localizedPath(lang, '/docs/getting-started')}>{t('home.cta.start')}</a>
+        <a class="btn btn-ghost" href={localizedPath(lang, '/products/hearth-di16g')}>{t('home.cta.hardware')}</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" style="margin-top:2rem;">
+    <h2 class="section-title">{t('home.modules.title')}</h2>
+    <p class="section-sub">{t('home.modules.sub')}</p>
+    <div class="grid grid-2">
+      {products.map((p) => (
+        <a class="card" href={localizedPath(lang, `/products/${entrySlug(p.id)}`)}>
+          <span class="sku">{p.data.sku}</span>
+          <span class="pill" style="float:right;">{t(`role.${p.data.role}` as any)}</span>
+          <h3>{p.data.title}</h3>
+          <p>{p.data.tagline}</p>
+          <p style="margin-top:0.8rem; color:var(--text-dim); font-size:0.9rem;">{p.data.summary}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="wrap" style="margin-top:4rem;">
+    <h2 class="section-title">{t('home.why.title')}</h2>
+    <p class="section-sub">{t('home.why.sub')}</p>
+    <div class="grid grid-2">
+      {pillars[lang].map((p) => (
+        <div class="card">
+          <h3>{p.title}</h3>
+          <p>{p.body}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="wrap" style="margin-top:4rem;">
+    <div class="card" style="text-align:center; padding:2.5rem;">
+      <h2 style="margin-top:0;">{t('home.final.title')}</h2>
+      <p style="max-width:34rem; margin:0.5rem auto 1.5rem;">{t('home.final.body')}</p>
+      <a class="btn btn-primary" href={localizedPath(lang, '/docs/getting-started')}>{t('home.final.cta')}</a>
+    </div>
+  </section>
+</BaseLayout>

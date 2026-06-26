@@ -1,15 +1,23 @@
 ---
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+import { useTranslations, type Lang } from '../i18n/ui';
+import { localizedPath } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
 const year = new Date().getFullYear();
+const adminHref = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/admin/`;
 ---
 <footer class="site-footer">
   <div class="wrap">
-    <div>© {year} OSELIA — a local-first, wired smart-home system.</div>
+    <div>© {year} {t('footer.tagline')}</div>
     <div style="display:flex; gap:1.2rem; flex-wrap:wrap;">
-      <a href={`${base}/docs/getting-started`}>Docs</a>
-      <a href="https://github.com/vmyronovych/oselia-hearth-di16g-firmware" target="_blank" rel="noopener">Firmware</a>
-      <a href="https://github.com/vmyronovych/oselia-hearth-di16g-ha" target="_blank" rel="noopener">HA Integration</a>
-      <a href={`${base}/admin/`}>Edit (CMS)</a>
+      <a href={localizedPath(lang, '/docs/getting-started')}>{t('footer.docs')}</a>
+      <a href="https://github.com/vmyronovych/oselia-hearth-di16g-firmware" target="_blank" rel="noopener">{t('footer.firmware')}</a>
+      <a href="https://github.com/vmyronovych/oselia-hearth-di16g-ha" target="_blank" rel="noopener">{t('footer.ha')}</a>
+      <a href={adminHref}>{t('footer.cms')}</a>
     </div>
   </div>
 </footer>

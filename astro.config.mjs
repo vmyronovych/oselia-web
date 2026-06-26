@@ -14,10 +14,50 @@ import sitemap from '@astrojs/sitemap';
 // ─────────────────────────────────────────────────────────────────────────────
 const SITE = process.env.SITE ?? 'https://vmyronovych.github.io';
 const BASE = process.env.BASE ?? '/oselia-web';
+const BASE_CLEAN = BASE.replace(/\/$/, '');
+
+/**
+ * Markdown/MDX links are authored as root-absolute (e.g. `/uk/docs/...`) but the
+ * site is served from a sub-path (`/oselia-web`). Astro does NOT auto-prefix the
+ * base onto links inside rendered Markdown, so this rehype plugin does it — for
+ * both <a href> and <img src> — leaving external, anchor (#…) and protocol-relative
+ * (//…) links alone, and never double-prefixing.
+ */
+function rehypeBasePaths() {
+  if (!BASE_CLEAN) return () => {};
+  const fix = (val) =>
+    typeof val === 'string' &&
+    val.startsWith('/') &&
+    !val.startsWith('//') &&
+    !val.startsWith(`${BASE_CLEAN}/`) &&
+    val !== BASE_CLEAN
+      ? `${BASE_CLEAN}${val}`
+      : val;
+
+  /** @param {any} node */
+  const visit = (node) => {
+    if (node.type === 'element' && node.properties) {
+      if (node.tagName === 'a') node.properties.href = fix(node.properties.href);
+      if (node.tagName === 'img') node.properties.src = fix(node.properties.src);
+    }
+    if (node.children) node.children.forEach(visit);
+  };
+  return (/** @type {any} */ tree) => visit(tree);
+}
 
 export default defineConfig({
   site: SITE,
   base: BASE,
   trailingSlash: 'ignore',
-  integrations: [mdx(), sitemap()],
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'uk'],
+    routing: {
+      prefixDefaultLocale: false, // English at /, Ukrainian at /uk/
+    },
+  },
+  markdown: {
+    rehypePlugins: [rehypeBasePaths],
+  },
+  integrations: [mdx(), sitemap({ i18n: { defaultLocale: 'en', locales: { en: 'en', uk: 'uk' } } })],
 });

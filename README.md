@@ -14,10 +14,20 @@ built-in CMS, built on Astro and deployed free to GitHub Pages.
 
 | Path | What's inside |
 |------|---------------|
-| `src/pages/` | Routes: home, `products/[id]`, `docs/[id]`. |
-| `src/content/products/` | One Markdown file per module (Hearth, Ember). Editable in the CMS. |
-| `src/content/docs/` | Getting Started, HA integration, automations, troubleshooting. |
+| `src/pages/[...locale]/` | Locale-aware routes (en at `/`, uk at `/uk/`): home, `products/[id]`, `docs/[id]`. |
+| `src/content/products/<lang>/` | One Markdown file per module per language (Hearth, Ember). Editable in the CMS. |
+| `src/content/docs/<lang>/` | Getting Started, HA integration, automations, troubleshooting — per language. |
+| `src/i18n/` | UI strings (`ui.ts`) and locale path helpers (`utils.ts`). |
 | `src/layouts/`, `src/components/`, `src/styles/` | Layouts, header/footer, global CSS. |
+
+## Languages
+
+The site is bilingual — **English** (`/`) and **Ukrainian** (`/uk/`) — via Astro's
+i18n routing. UI strings live in `src/i18n/ui.ts`; page content is translated per
+language under `src/content/<collection>/<lang>/`. The header has a language switcher,
+and Decap CMS edits both languages side by side (`i18n: multiple_folders`). To add a
+locale: add it to `locales` in `astro.config.mjs`, the `ui` map and `pillars` in
+`src/i18n/ui.ts`, the CMS `i18n.locales`, and create `src/content/*/<lang>/` files.
 | `public/admin/` | **Decap CMS** — the little content manager (`/admin`). |
 | `oauth-proxy/` | Cloudflare Worker for the CMS's GitHub login (online editing). |
 | `.github/workflows/deploy.yml` | CI/CD: build + deploy to GitHub Pages on push to `main`. |

@@ -1,0 +1,23 @@
+---
+import { getCollection, render } from 'astro:content';
+import DocsLayout from '../../../layouts/DocsLayout.astro';
+import { type Lang } from '../../../i18n/ui';
+import { entryLang, entrySlug, localePrefix } from '../../../i18n/utils';
+
+export async function getStaticPaths() {
+  const docs = await getCollection('docs', ({ data }) => !data.draft);
+  return docs.map((doc) => {
+    const lang = entryLang(doc.id);
+    return {
+      params: { locale: localePrefix(lang), id: entrySlug(doc.id) },
+      props: { doc, lang },
+    };
+  });
+}
+
+const { doc, lang } = Astro.props as { doc: any; lang: Lang };
+const { Content } = await render(doc);
+---
+<DocsLayout title={doc.data.title} description={doc.data.description} current={entrySlug(doc.id)} lang={lang}>
+  <Content />
+</DocsLayout>

@@ -1,0 +1,26 @@
+---
+import { languages, type Lang } from '../../../i18n/ui';
+import { localePrefix, localizedPath } from '../../../i18n/utils';
+
+export async function getStaticPaths() {
+  return (Object.keys(languages) as Lang[]).map((lang) => ({
+    params: { locale: localePrefix(lang) },
+    props: { lang },
+  }));
+}
+
+const { lang } = Astro.props as { lang: Lang };
+const target = localizedPath(lang, '/docs/getting-started');
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <link rel="canonical" href={target} />
+    <title>Documentation — OSELIA</title>
+  </head>
+  <body>
+    <p>Redirecting to <a href={target}>Getting Started</a>…</p>
+  </body>
+</html>
