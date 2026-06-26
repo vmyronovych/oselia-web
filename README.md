@@ -94,6 +94,10 @@ git push origin main          # → deploys to /oselia-web/ (live)
 CMS commits land on whichever branch you're authoring against, so you can point the
 CMS at `staging` to preview content edits before promoting them.
 
+Every pull request into `main` or `staging` runs a build gate
+([`pr-check.yml`](.github/workflows/pr-check.yml)) — if the site doesn't build, the
+PR can't be merged.
+
 ### Custom domain or user/org page
 
 This is configured as a **project page** (served under `/oselia-web`). To use a
