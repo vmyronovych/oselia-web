@@ -1,0 +1,15 @@
+---
+const target = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/docs/getting-started`;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <link rel="canonical" href={target} />
+    <title>Documentation — OSELIA</title>
+  </head>
+  <body>
+    <p>Redirecting to <a href={target}>Getting Started</a>…</p>
+  </body>
+</html>

@@ -1,0 +1,53 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  current: string;
+}
+const { title, description, current } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const docs = (await getCollection('docs', ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order
+);
+
+// Group by section, preserving first-seen order.
+const sections: { name: string; items: typeof docs }[] = [];
+for (const doc of docs) {
+  let group = sections.find((s) => s.name === doc.data.section);
+  if (!group) {
+    group = { name: doc.data.section, items: [] };
+    sections.push(group);
+  }
+  group.items.push(doc);
+}
+---
+<BaseLayout title={title} description={description}>
+  <div class="wrap">
+    <div class="docs">
+      <nav class="docs-sidebar" aria-label="Documentation">
+        {sections.map((section) => (
+          <div class="group">
+            <div class="group-title">{section.name}</div>
+            {section.items.map((doc) => (
+              <a
+                href={`${base}/docs/${doc.id}`}
+                class={doc.id === current ? 'active' : ''}
+                aria-current={doc.id === current ? 'page' : undefined}
+              >
+                {doc.data.title}
+              </a>
+            ))}
+          </div>
+        ))}
+      </nav>
+      <article class="prose">
+        <h1>{title}</h1>
+        <slot />
+      </article>
+    </div>
+  </div>
+</BaseLayout>

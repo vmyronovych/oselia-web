@@ -1,0 +1,7 @@
+name = "oselia-cms-auth"
+main = "worker.js"
+compatibility_date = "2024-11-01"
+
+# Secrets (do NOT put them here) — set with:
+#   npx wrangler secret put GITHUB_CLIENT_ID
+#   npx wrangler secret put GITHUB_CLIENT_SECRET

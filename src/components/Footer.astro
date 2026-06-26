@@ -1,0 +1,15 @@
+---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="wrap">
+    <div>© {year} OSELIA — a local-first, wired smart-home system.</div>
+    <div style="display:flex; gap:1.2rem; flex-wrap:wrap;">
+      <a href={`${base}/docs/getting-started`}>Docs</a>
+      <a href="https://github.com/vmyronovych/oselia-hearth-di16g-firmware" target="_blank" rel="noopener">Firmware</a>
+      <a href="https://github.com/vmyronovych/oselia-hearth-di16g-ha" target="_blank" rel="noopener">HA Integration</a>
+      <a href={`${base}/admin/`}>Edit (CMS)</a>
+    </div>
+  </div>
+</footer>
