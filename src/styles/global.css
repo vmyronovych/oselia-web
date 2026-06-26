@@ -1,17 +1,17 @@
 :root {
-  /* Warm "hearth/ember" palette on a deep, industrial base. */
-  --bg: #0e0f13;
-  --bg-soft: #16181f;
-  --bg-card: #1b1e27;
-  --border: #2a2e3a;
-  --border-soft: #23262f;
-  --text: #e8e9ee;
-  --text-soft: #aab0bf;
-  --text-dim: #7b8294;
-  --ember: #ff6a2b;
-  --ember-soft: #ff8c5a;
-  --ember-dim: #c2410c;
-  --accent-glow: rgba(255, 106, 43, 0.18);
+  /* OSELIA brand — house mark on electric blue accent. */
+  --bg: #0d1014;
+  --bg-soft: #14181e;
+  --bg-card: #1b2027;
+  --border: #272e38;
+  --border-soft: #20262f;
+  --text: #e7ebef;
+  --text-soft: #8b939e;
+  --text-dim: #5c646f;
+  --accent: #3b86e8;
+  --accent-soft: #629eed;
+  --accent-dim: #2f6bba;
+  --accent-glow: rgba(59, 134, 232, 0.16);
   --max: 1080px;
   --radius: 14px;
   --radius-sm: 9px;
@@ -36,8 +36,8 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-a { color: var(--ember-soft); text-decoration: none; }
-a:hover { color: var(--ember); }
+a { color: var(--accent-soft); text-decoration: none; }
+a:hover { color: var(--accent); }
 
 h1, h2, h3, h4 { line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; }
 h1 { font-size: clamp(2.1rem, 5vw, 3.4rem); }
@@ -55,7 +55,7 @@ code {
   border: 1px solid var(--border-soft);
   padding: 0.12em 0.4em;
   border-radius: 6px;
-  color: var(--ember-soft);
+  color: var(--accent-soft);
 }
 
 pre {
@@ -79,12 +79,12 @@ pre code { background: none; border: none; padding: 0; color: var(--text); font-
   font-size: 0.95rem;
 }
 .btn-primary {
-  background: var(--ember); color: #1a0c04;
+  background: var(--accent); color: #0d1014;
   box-shadow: 0 6px 24px var(--accent-glow);
 }
-.btn-primary:hover { background: var(--ember-soft); color: #1a0c04; transform: translateY(-1px); }
+.btn-primary:hover { background: var(--accent-soft); color: #0d1014; transform: translateY(-1px); }
 .btn-ghost { background: var(--bg-card); color: var(--text); border-color: var(--border); }
-.btn-ghost:hover { border-color: var(--ember-dim); color: var(--text); }
+.btn-ghost:hover { border-color: var(--accent-dim); color: var(--text); }
 
 /* ── Header ──────────────────────────────────────────────────────── */
 .site-header {
@@ -96,7 +96,7 @@ pre code { background: none; border: none; padding: 0; color: var(--text); font-
 .site-header .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
 .brand { display: flex; align-items: center; gap: 0.6rem; font-weight: 800; letter-spacing: 0.04em; color: var(--text); font-size: 1.1rem; }
 .brand:hover { color: var(--text); }
-.brand .mark { width: 26px; height: 26px; }
+.brand .mark { width: 26px; height: 26px; color: var(--accent); }
 .nav { display: flex; gap: 1.4rem; align-items: center; }
 .nav a { color: var(--text-soft); font-weight: 500; font-size: 0.95rem; }
 .nav a:hover { color: var(--text); }
@@ -109,7 +109,7 @@ pre code { background: none; border: none; padding: 0; color: var(--text); font-
 }
 .lang-switch a + a { border-left: 1px solid var(--border); }
 .lang-switch a:hover { color: var(--text); background: var(--bg-soft); }
-.lang-switch a.active { color: var(--ember-soft); background: var(--accent-glow); }
+.lang-switch a.active { color: var(--accent-soft); background: var(--accent-glow); }
 
 /* ── Footer ──────────────────────────────────────────────────────── */
 .site-footer {
@@ -128,7 +128,7 @@ pre code { background: none; border: none; padding: 0; color: var(--text); font-
   pointer-events: none;
 }
 .hero .eyebrow {
-  display: inline-block; color: var(--ember-soft); font-weight: 600;
+  display: inline-block; color: var(--accent-soft); font-weight: 600;
   font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1rem;
 }
 .hero p.lead { font-size: 1.2rem; max-width: 40rem; color: var(--text-soft); }
@@ -149,9 +149,9 @@ pre code { background: none; border: none; padding: 0; color: var(--text); font-
   border-radius: var(--radius); padding: 1.6rem;
   transition: border-color 0.15s ease, transform 0.15s ease;
 }
-a.card:hover { border-color: var(--ember-dim); transform: translateY(-2px); }
+a.card:hover { border-color: var(--accent-dim); transform: translateY(-2px); }
 .card h3 { margin: 0 0 0.4rem; color: var(--text); }
-.card .sku { font-family: var(--mono); font-size: 0.78rem; color: var(--ember-soft); letter-spacing: 0.04em; }
+.card .sku { font-family: var(--mono); font-size: 0.78rem; color: var(--accent-soft); letter-spacing: 0.04em; }
 .card p { margin: 0.5rem 0 0; font-size: 0.95rem; }
 
 .pill {
@@ -180,7 +180,7 @@ a.card:hover { border-color: var(--ember-dim); transform: translateY(-2px); }
 .prose th, .prose td { padding: 0.55rem 0.7rem; border: 1px solid var(--border); text-align: left; overflow-wrap: anywhere; }
 .prose th { background: var(--bg-soft); color: var(--text); }
 .prose blockquote {
-  border-left: 3px solid var(--ember-dim); margin: 1.2rem 0; padding: 0.5rem 1rem;
+  border-left: 3px solid var(--accent-dim); margin: 1.2rem 0; padding: 0.5rem 1rem;
   background: var(--bg-soft); border-radius: 0 8px 8px 0; color: var(--text-soft);
 }
 .prose blockquote p { margin: 0.3rem 0; }
@@ -195,7 +195,7 @@ a.card:hover { border-color: var(--ember-dim); transform: translateY(-2px); }
 .docs-sidebar .group-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); margin-bottom: 0.5rem; }
 .docs-sidebar a { display: block; padding: 0.35rem 0.6rem; border-radius: 7px; color: var(--text-soft); font-size: 0.92rem; }
 .docs-sidebar a:hover { background: var(--bg-soft); color: var(--text); }
-.docs-sidebar a.active { background: var(--accent-glow); color: var(--ember-soft); font-weight: 600; }
+.docs-sidebar a.active { background: var(--accent-glow); color: var(--accent-soft); font-weight: 600; }
 
 /* ── Product layout (content + spec sidebar) ─────────────────────── */
 .product-layout { display: grid; grid-template-columns: 1fr 300px; gap: 3rem; padding-top: 1rem; align-items: start; }
