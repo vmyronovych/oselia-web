@@ -65,38 +65,42 @@ You can also just edit the Markdown in `src/content/` directly — the CMS is op
 Hosted **free on GitHub Pages** from the **`gh-pages`** branch, with two environments
 that share that branch:
 
-| Environment | Source branch | URL | Built with `BASE` |
-|-------------|---------------|-----|-------------------|
-| **Production** (live) | `main` | https://vmyronovych.github.io/oselia-web/ | `/oselia-web` |
-| **Staging** (preview, `noindex`) | `staging` | https://vmyronovych.github.io/oselia-web/staging/ | `/oselia-web/staging` |
+| Environment | Trigger | URL | Built with `BASE` |
+|-------------|---------|-----|-------------------|
+| **Production** (live) | push / merge to `main` | https://vmyronovych.github.io/oselia-web/ | `/oselia-web` |
+| **Staging** (preview, `noindex`) | any open **pull request** to `main` | https://vmyronovych.github.io/oselia-web/staging/ | `/oselia-web/staging` |
 
-Each branch has its own workflow ([`deploy-production.yml`](.github/workflows/deploy-production.yml),
-[`deploy-staging.yml`](.github/workflows/deploy-staging.yml)) that builds and publishes
-into its slot of `gh-pages` (root vs `/staging/`), leaving the other slot untouched.
+Two workflows publish into separate slots of the `gh-pages` branch (root vs
+`/staging/`), each leaving the other untouched:
+- [`deploy-production.yml`](.github/workflows/deploy-production.yml) — on push to `main`.
+- [`deploy-staging.yml`](.github/workflows/deploy-staging.yml) — on every pull request to
+  `main`. It deploys the PR to `/staging/` **and** is the required `build` status check,
+  so a PR that doesn't build can't be merged.
 
 One-time repo setup: GitHub → **Settings → Pages → Build and deployment →
 Source: Deploy from a branch → `gh-pages` / `(root)`**.
 
-### Test on staging, then push live
+### Test on staging, then ship live
+
+`main` is protected: it requires a pull request whose `build` check passes (enforced for
+admins too). So the flow is:
 
 ```bash
-# 1. Work on the staging branch
-git switch staging            # (git switch -c staging the first time)
-# …make changes / merge in your work…
-git push origin staging       # → deploys to /oselia-web/staging/
+# 1. Work on a branch (e.g. `staging` or a feature branch)
+git switch -c my-change       # or: git switch staging
+# …make changes / edit content…
+git push origin my-change
 
-# 2. Happy with it? Promote to live by merging into main
-git switch main
-git merge staging
-git push origin main          # → deploys to /oselia-web/ (live)
+# 2. Open a PR into main — this auto-deploys it to /oselia-web/staging/ for review
+gh pr create --base main --head my-change --fill
+
+# 3. Looks good and the `build` check is green? Merge it → auto-deploys live
+gh pr merge --merge           # (or --squash)
 ```
 
-CMS commits land on whichever branch you're authoring against, so you can point the
-CMS at `staging` to preview content edits before promoting them.
-
-Every pull request into `main` or `staging` runs a build gate
-([`pr-check.yml`](.github/workflows/pr-check.yml)) — if the site doesn't build, the
-PR can't be merged.
+There is a single staging slot, so the most recently updated open PR owns it. CMS
+commits land on whichever branch you're authoring against, so point the CMS at your PR
+branch to preview content edits on staging before merging.
 
 ### Custom domain or user/org page
 
