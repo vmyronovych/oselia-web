@@ -1,0 +1,103 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" type="image/svg+xml" href="/oselia-web/pr-17/favicon.svg"><title>Getting Started — OSELIA</title><meta name="description" content="Provision an OSELIA Hearth DI16-G from the box to live in Home Assistant — no programming required."><meta property="og:title" content="Getting Started — OSELIA"><meta property="og:description" content="Provision an OSELIA Hearth DI16-G from the box to live in Home Assistant — no programming required."><meta property="og:type" content="website"><meta name="generator" content="Astro v5.18.2"><link rel="stylesheet" href="/oselia-web/pr-17/_astro/_id_.-IGHMm-W.css"><meta name="robots" content="noindex,nofollow"></head> <body> <header class="site-header"> <div class="wrap"> <a class="brand" href="/oselia-web/pr-17/"> <svg class="mark" viewBox="0 0 100 100" fill="none" aria-hidden="true"><rect x="8" y="58" width="84" height="9" rx="4.5" fill="currentColor" opacity=".32"></rect><rect x="22" y="30" width="15" height="28" rx="3.5" stroke="currentColor" stroke-width="4.5"></rect><rect x="42.5" y="30" width="15" height="28" rx="3.5" fill="currentColor"></rect><rect x="63" y="30" width="15" height="28" rx="3.5" stroke="currentColor" stroke-width="4.5"></rect></svg>
+OSELIA
+</a> <nav class="nav"> <a class="hide-sm" href="/oselia-web/pr-17/products/hearth-di16g">Hearth DI16-G</a><a class="hide-sm" href="/oselia-web/pr-17/products/ember-di16x">Ember DI-16X</a><a class="hide-sm" href="/oselia-web/pr-17/docs/getting-started">Getting Started</a> <div class="lang-switch" role="group" aria-label="Language"> <a href="/oselia-web/pr-17/docs/getting-started/" class="active" aria-current="true" lang="en">EN</a><a href="/oselia-web/pr-17/uk/docs/getting-started/" class lang="uk">UK</a> </div> <a class="btn btn-ghost hide-sm" href="https://github.com/vmyronovych/oselia" target="_blank" rel="noopener">GitHub</a> </nav> </div> </header> <main>  <div class="wrap"> <div class="docs"> <nav class="docs-sidebar" aria-label="Documentation"> <div class="group"> <div class="group-title">Getting Started</div> <a href="/oselia-web/pr-17/docs/getting-started" class="active" aria-current="page"> Getting Started </a><a href="/oselia-web/pr-17/docs/ha-integration" class> Home Assistant Integration </a><a href="/oselia-web/pr-17/docs/automations" class> Naming Switches &amp; Automations </a> </div><div class="group"> <div class="group-title">Reference</div> <a href="/oselia-web/pr-17/docs/troubleshooting" class> Troubleshooting </a> </div> </nav> <article class="prose"> <h1>Getting Started</h1>  <p>This guide takes a fresh <strong>OSELIA Hearth (DI16-G)</strong> from the box to live in Home
+Assistant. No programming needed: you plug in a USB cable, run one command, and
+answer a few prompts. The wizard does the rest.</p>
+<blockquote>
+<p>⚠️ <strong>Never connect USB-C while the board’s 24 V supply is ON.</strong> The board can’t be
+powered from USB and 24 V at the same time. <strong>Switch the 24 V supply OFF before
+plugging in USB</strong>, and only switch it back on after you’ve unplugged USB. USB alone
+powers the gateway fine for provisioning.</p>
+</blockquote>
+<h2 id="before-you-start">Before you start</h2>
+<p>You need:</p>
+<ul>
+<li>The <strong>Hearth</strong>, wired (24 V inputs + <strong>Ethernet plugged in</strong>), with the <strong>24 V
+supply switched OFF</strong> for now. MicroPython does <em>not</em> need to be pre-flashed — the
+wizard checks the interpreter and offers to flash the pinned build if it’s missing.</li>
+<li>A <strong>USB cable</strong> from the gateway to your laptop. USB powers the gateway during
+provisioning; Ethernet stays connected so it can reach the broker.</li>
+<li><strong>Home Assistant</strong> already running on the LAN, with its MQTT broker, on the <strong>same
+network</strong> the gateway’s Ethernet is plugged into.</li>
+<li>Your <strong>broker username / password</strong>, if your broker requires a login.</li>
+</ul>
+<h2 id="one-time-laptop-setup">One-time laptop setup</h2>
+<p>Install Python 3, then the tool the wizard uses to talk to the board:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">pip</span><span style="color:#9ECBFF"> install</span><span style="color:#9ECBFF"> mpremote</span></span>
+<span class="line"><span style="color:#6A737D"># optional: better serial diagnostics, and required for --monitor-passive on Windows</span></span>
+<span class="line"><span style="color:#B392F0">pip</span><span style="color:#9ECBFF"> install</span><span style="color:#9ECBFF"> pyserial</span></span></code></pre>
+<p><code>zeroconf</code> (used to auto-find your broker) isn’t required up front — the wizard offers
+to install it on first run.</p>
+<h2 id="provision-the-gateway">Provision the gateway</h2>
+<ol>
+<li>
+<p><strong>Confirm the 24 V supply is OFF</strong>, then plug the gateway into your laptop with USB.
+Leave <strong>Ethernet</strong> connected; the 24 V supply stays off for the whole step.</p>
+</li>
+<li>
+<p>From the firmware repo’s <code>provisioning/</code> folder, run:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">python3</span><span style="color:#9ECBFF"> provision.py</span></span></code></pre>
+</li>
+<li>
+<p>Answer the prompts. The wizard <strong>finds MQTT brokers on the network automatically</strong>
+(mDNS, then a quick port-1883 scan):</p>
+<div class="table-wrap">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Prompt</th><th>What to do</th></tr></thead><tbody><tr><td><code>Which MQTT broker number</code></td><td>Only if several were found — type the number to use.</td></tr><tr><td><code>Broker IP or hostname</code></td><td>Only if none were found — type the broker’s address.</td></tr><tr><td><code>Broker username</code></td><td>Type it, or leave <strong>blank</strong> for anonymous brokers.</td></tr><tr><td><code>Broker password</code></td><td>Type it (hidden), or leave blank.</td></tr></tbody></table></div>
+<p>The number of input boards is <strong>auto-detected</strong> — the gateway scans its I²C bus at
+boot, so you’re never asked for a count.</p>
+</li>
+<li>
+<p>The wizard checks the broker is reachable <strong>before writing anything</strong>, writes the
+config, copies the firmware, restarts the board, and waits for it to report
+<strong>online via the broker</strong>.</p>
+</li>
+<li>
+<p>On <strong><code>PASS: device … is online</code></strong>, <strong>unplug USB, then switch the 24 V supply ON.</strong>
+The gateway reboots on field power, reconnects, and the inputs come alive.</p>
+</li>
+</ol>
+<p>That’s it — the gateway is now a device in Home Assistant. Next, install the
+<a href="/oselia-web/pr-17/docs/ha-integration">Home Assistant integration</a> so it appears under OSELIA with
+OTA updates, then <a href="/oselia-web/pr-17/docs/automations">name your switches and build automations</a>.</p>
+<h2 id="adding-an-ember-expander">Adding an Ember expander</h2>
+<p><a href="/oselia-web/pr-17/products/ember-di16x">OSELIA Ember (DI-16X)</a> modules need <strong>no provisioning of their
+own</strong> — the gateway discovers them on its I²C bus:</p>
+<ol>
+<li>Set the module’s address straps (A0–A2) to the next free address (<code>0x21</code>, <code>0x22</code>, …).</li>
+<li>Wire it onto the shared field bus next to the Hearth.</li>
+<li><strong>Power-cycle the gateway.</strong> It rescans the bus at boot and the new inputs appear as
+<code>board&#x3C;N>_input&#x3C;M></code> in Home Assistant.</li>
+</ol>
+<h2 id="moving-a-gateway-to-a-new-network">Moving a gateway to a new network</h2>
+<p>Everything site-specific (broker IP, MQTT login, DHCP/static) lives in a small
+<code>site.json</code> on the board, and the gateway does <strong>not</strong> reconfigure itself. To relocate:
+re-run <code>python3 provision.py</code> at the new site — it auto-discovers the new broker and
+writes the new config. <strong>No re-flash needed</strong> — a move is purely a re-provision.</p>
+<h2 id="re-provisioning-later">Re-provisioning later</h2>
+<p>Run <code>python3 provision.py</code> again on the same unit any time. It reads the existing
+settings, offers them as defaults, and lets you change just the broker, swap
+credentials, or add a board. Re-running is safe.</p>  </article> </div> </div>  </main> <footer class="site-footer"> <div class="wrap"> <div>© 2026 OSELIA — a local-first, wired smart-home system.</div> <div style="display:flex; gap:1.2rem; flex-wrap:wrap;"> <a href="/oselia-web/pr-17/docs/getting-started">Docs</a> <a href="https://github.com/vmyronovych/oselia-hearth-di16g-firmware" target="_blank" rel="noopener">Firmware</a> <a href="https://github.com/vmyronovych/oselia-hearth-di16g-ha" target="_blank" rel="noopener">HA Integration</a> <a href="/oselia-web/pr-17/admin/">Edit (CMS)</a> </div> </div> </footer> </body></html>
