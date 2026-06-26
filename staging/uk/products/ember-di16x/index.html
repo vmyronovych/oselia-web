@@ -5,6 +5,12 @@ OSELIA
 ще 16 ізольованих входів 24 В і поділяє польову шину I²C зі
 <a href="/oselia-web/staging/uk/products/hearth-di16g">шлюзом Hearth</a>, тож додавання входів — це просто ще
 один модуль, клацнутий на рейку.</p>
+<h2 id="як-це-підключається">Як це підключається</h2>
+<p>Ember підключається як шлюз — блок живлення 24 В, модуль і ваші настінні вимикачі на
+DIN-рейці — але він <strong>не має Ethernet</strong>. Натомість його <strong>шина I²C з’єднується зі
+шлюзом <a href="/oselia-web/staging/uk/products/hearth-di16g">Hearth DI16-G</a></strong>, який і спілкується з Home
+Assistant.</p>
+<p><img src="/oselia-web/staging/diagrams/ember-wiring-uk.svg" alt="Блок живлення 24 В, розширювач OSELIA Ember DI-16X і вимикач на DIN-рейці; шина I²C з&#x27;єднана зі шлюзом Hearth"></p>
 <h2 id="масштабування">Масштабування</h2>
 <p>Один <a href="/oselia-web/staging/uk/products/hearth-di16g">Hearth DI16-G</a> обслуговує власні 16 входів плюс до
 <strong>семи модулів Ember</strong> — <code>0x21</code>–<code>0x27</code> на шині — разом <strong>128 входів</strong>. Нумерація

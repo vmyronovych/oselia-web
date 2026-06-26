@@ -4,6 +4,12 @@ OSELIA
 <p>The <strong>OSELIA Ember (DI-16X)</strong> is the expansion module for an OSELIA installation.
 It carries 16 more isolated 24 V inputs and shares the <a href="/oselia-web/staging/products/hearth-di16g">Hearth gateway’s</a>
 I²C field bus, so adding inputs is a matter of snapping another module onto the rail.</p>
+<h2 id="how-its-wired">How it’s wired</h2>
+<p>An Ember is wired like the gateway — a 24 V supply, the module and your wall switches
+on the DIN rail — but it has <strong>no Ethernet</strong>. Instead, its <strong>I²C bus links back to a
+<a href="/oselia-web/staging/products/hearth-di16g">Hearth DI16-G</a> gateway</strong>, which is the board that talks to
+Home Assistant.</p>
+<p><img src="/oselia-web/staging/diagrams/ember-wiring-en.svg" alt="A 24 V power supply, an OSELIA Ember DI-16X expander and a wall switch on a DIN rail, its I²C bus linked to a Hearth gateway"></p>
 <h2 id="scaling-up">Scaling up</h2>
 <p>A single <a href="/oselia-web/staging/products/hearth-di16g">Hearth DI16-G</a> handles its own 16 inputs plus up
 to <strong>seven Ember modules</strong> — <code>0x21</code> through <code>0x27</code> on the bus — for <strong>128 inputs</strong>
