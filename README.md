@@ -62,17 +62,37 @@ You can also just edit the Markdown in `src/content/` directly — the CMS is op
 
 ## Hosting & deployment
 
-Hosted **free on GitHub Pages**, deployed by GitHub Actions on every push to `main`
-(including CMS commits). One-time repo setup:
+Hosted **free on GitHub Pages** from the **`gh-pages`** branch, with two environments
+that share that branch:
 
-1. Create the repo and push:
-   ```bash
-   git remote add origin git@github.com:vmyronovych/oselia-web.git
-   git push -u origin main
-   ```
-2. GitHub → **Settings → Pages → Build and deployment → Source: GitHub Actions**.
-3. Push to `main` (or run the workflow manually). The site lands at
-   **https://vmyronovych.github.io/oselia-web/**.
+| Environment | Source branch | URL | Built with `BASE` |
+|-------------|---------------|-----|-------------------|
+| **Production** (live) | `main` | https://vmyronovych.github.io/oselia-web/ | `/oselia-web` |
+| **Staging** (preview, `noindex`) | `staging` | https://vmyronovych.github.io/oselia-web/staging/ | `/oselia-web/staging` |
+
+Each branch has its own workflow ([`deploy-production.yml`](.github/workflows/deploy-production.yml),
+[`deploy-staging.yml`](.github/workflows/deploy-staging.yml)) that builds and publishes
+into its slot of `gh-pages` (root vs `/staging/`), leaving the other slot untouched.
+
+One-time repo setup: GitHub → **Settings → Pages → Build and deployment →
+Source: Deploy from a branch → `gh-pages` / `(root)`**.
+
+### Test on staging, then push live
+
+```bash
+# 1. Work on the staging branch
+git switch staging            # (git switch -c staging the first time)
+# …make changes / merge in your work…
+git push origin staging       # → deploys to /oselia-web/staging/
+
+# 2. Happy with it? Promote to live by merging into main
+git switch main
+git merge staging
+git push origin main          # → deploys to /oselia-web/ (live)
+```
+
+CMS commits land on whichever branch you're authoring against, so you can point the
+CMS at `staging` to preview content edits before promoting them.
 
 ### Custom domain or user/org page
 

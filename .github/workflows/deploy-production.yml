@@ -1,0 +1,46 @@
+name: Deploy production
+
+# Live site: https://vmyronovych.github.io/oselia-web/
+# Built from `main` and published to the ROOT of the `gh-pages` branch.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Serialize all gh-pages publishes (prod + staging share the branch) so two
+# deploys never race on the same push. Don't cancel an in-progress publish.
+concurrency:
+  group: gh-pages-publish
+  cancel-in-progress: false
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build (production)
+        run: npm run build
+        env:
+          SITE: https://vmyronovych.github.io
+          BASE: /oselia-web
+
+      - name: Publish to gh-pages (root)
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          # Keep the /staging/ subfolder (owned by the staging workflow) intact.
+          keep_files: true
+          commit_message: "deploy(production): ${{ github.sha }}"

@@ -1,0 +1,51 @@
+name: Deploy staging
+
+# Staging site: https://vmyronovych.github.io/oselia-web/staging/
+# Built from the `staging` branch and published to the /staging/ subfolder of the
+# `gh-pages` branch. Tagged noindex so it stays out of search results.
+
+on:
+  push:
+    branches: [staging]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gh-pages-publish
+  cancel-in-progress: false
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build (staging)
+        run: npm run build
+        env:
+          SITE: https://vmyronovych.github.io
+          BASE: /oselia-web/staging
+
+      - name: Mark as noindex
+        run: |
+          find dist -name '*.html' -print0 \
+            | xargs -0 sed -i 's#</head>#<meta name="robots" content="noindex,nofollow"></head>#'
+
+      - name: Publish to gh-pages (/staging)
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          destination_dir: staging
+          # Keep the production site at the root intact.
+          keep_files: true
+          commit_message: "deploy(staging): ${{ github.sha }}"
