@@ -51,18 +51,27 @@
     <rect x="206" y="66" width="392" height="250" rx="9" fill="#dcdad2" stroke="#b6b4ab" stroke-width="1.5"/>
     <g fill="#c6c4bb" stroke="#b0aea4"><circle cx="222" cy="82" r="5"/><circle cx="582" cy="82" r="5"/><circle cx="222" cy="300" r="5"/><circle cx="582" cy="300" r="5"/></g>
 
-    <rect x="240" y="62" width="320" height="22" rx="3" fill="#2f8f5f" stroke="#247048"/>
+    <rect x="222" y="62" width="362" height="22" rx="3" fill="#2f8f5f" stroke="#247048"/>
     <g fill="#16181d">
-      <rect x="248" y="68" width="11" height="11" rx="1.5"/><rect x="267" y="68" width="11" height="11" rx="1.5"/>
-      <rect x="286" y="68" width="11" height="11" rx="1.5"/><rect x="305" y="68" width="11" height="11" rx="1.5"/>
-      <rect x="324" y="68" width="11" height="11" rx="1.5"/><rect x="343" y="68" width="11" height="11" rx="1.5"/>
-      <rect x="362" y="68" width="11" height="11" rx="1.5"/><rect x="381" y="68" width="11" height="11" rx="1.5"/>
-      <rect x="400" y="68" width="11" height="11" rx="1.5"/><rect x="419" y="68" width="11" height="11" rx="1.5"/>
-      <rect x="438" y="68" width="11" height="11" rx="1.5"/><rect x="457" y="68" width="11" height="11" rx="1.5"/>
-      <rect x="476" y="68" width="11" height="11" rx="1.5"/><rect x="495" y="68" width="11" height="11" rx="1.5"/>
-      <rect x="514" y="68" width="11" height="11" rx="1.5"/><rect x="533" y="68" width="11" height="11" rx="1.5"/>
+      <rect x="230" y="68" width="9" height="11" rx="1.5"/><rect x="248" y="68" width="9" height="11" rx="1.5"/>
+      <rect x="266" y="68" width="9" height="11" rx="1.5"/><rect x="284" y="68" width="9" height="11" rx="1.5"/>
+      <rect x="302" y="68" width="9" height="11" rx="1.5"/><rect x="320" y="68" width="9" height="11" rx="1.5"/>
+      <rect x="338" y="68" width="9" height="11" rx="1.5"/><rect x="356" y="68" width="9" height="11" rx="1.5"/>
+      <rect x="374" y="68" width="9" height="11" rx="1.5"/><rect x="392" y="68" width="9" height="11" rx="1.5"/>
+      <rect x="410" y="68" width="9" height="11" rx="1.5"/><rect x="428" y="68" width="9" height="11" rx="1.5"/>
+      <rect x="446" y="68" width="9" height="11" rx="1.5"/><rect x="464" y="68" width="9" height="11" rx="1.5"/>
+      <rect x="482" y="68" width="9" height="11" rx="1.5"/><rect x="500" y="68" width="9" height="11" rx="1.5"/>
+      <rect x="518" y="68" width="9" height="11" rx="1.5"/><rect x="536" y="68" width="9" height="11" rx="1.5"/>
+      <rect x="554" y="68" width="9" height="11" rx="1.5"/>
     </g>
-    <text x="400" y="98" font-size="9" fill="#6c6f78" text-anchor="middle" letter-spacing="0.5">24 V DISCRETE INPUTS · I1 … I16</text>
+    <g fill="#4cc08a"><circle cx="234.5" cy="73.5" r="2"/><circle cx="252.5" cy="73.5" r="2"/><circle cx="270.5" cy="73.5" r="2"/></g>
+    <circle cx="558.5" cy="73.5" r="2" fill="#ffb02e"/>
+    <g font-size="6.5" fill="#5f6b63" text-anchor="middle">
+      <text x="234.5" y="97">iso</text><text x="252.5" y="97">iso</text><text x="270.5" y="97">COM</text>
+    </g>
+    <text x="288.5" y="97" font-size="7" fill="#6c6f78" text-anchor="middle">I16</text>
+    <text x="558.5" y="97" font-size="7" fill="#6c6f78" text-anchor="middle">I1</text>
+    <text x="425" y="97" font-size="8.5" fill="#6c6f78" text-anchor="middle">входи вимикачів 24 В</text>
 
     <rect x="262" y="104" width="280" height="162" rx="5" fill="#f5f4ef" stroke="#dcdad1"/>
     <svg x="345" y="112" width="114" height="61" viewBox="0 53 92 49" preserveAspectRatio="xMidYMid meet">
@@ -115,10 +124,10 @@
   <path d="M118 318 V358 H492 V308" fill="none" stroke="#ff6a2b" stroke-width="2.5"/>
   <path d="M146 318 V344 H520 V308" fill="none" stroke="#8b93a5" stroke-width="2.5"/>
   <path d="M492 308 V332 H626 V196 H642" fill="none" stroke="#ff6a2b" stroke-width="2.5"/>
-  <path d="M642 238 H612 V44 H538 V62" fill="none" stroke="#ffb02e" stroke-width="2.5"/>
-  <text x="560" y="40" font-size="9" fill="#ffb02e" text-anchor="end">вимикач → вхід 1 (справа)</text>
-  <path d="M146 318 V336 H196 V44 H291 V62" fill="none" stroke="#8b93a5" stroke-width="2.5"/>
-  <text x="214" y="40" font-size="9" fill="#9aa1b1" text-anchor="start">земля з БЖ → вхід 3 (зліва)</text>
+  <path d="M642 238 H612 V44 H558 V62" fill="none" stroke="#ffb02e" stroke-width="2.5"/>
+  <text x="600" y="40" font-size="9" fill="#ffb02e" text-anchor="end">вимикач → вхід I1 (справа)</text>
+  <path d="M146 318 V336 H196 V44 H270 V62" fill="none" stroke="#8b93a5" stroke-width="2.5"/>
+  <text x="214" y="40" font-size="9" fill="#9aa1b1" text-anchor="start">земля з БЖ → спільна земля</text>
   <path d="M247 310 V340 H300" fill="none" stroke="#45b6c4" stroke-width="2.5"/>
   <path d="M296 335 l8 5 l-8 5 z" fill="#45b6c4"/>
   <text x="312" y="337" font-size="12" fill="#cfd3dc">Ethernet</text>
