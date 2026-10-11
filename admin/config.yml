@@ -96,6 +96,7 @@ collections:
     fields:
       - { name: title, label: Title, widget: string, i18n: true }
       - { name: description, label: Description, widget: text, i18n: true }
+      - { name: interactive, label: Interactive guide, widget: select, options: [roller-shutters], required: false, i18n: duplicate }
       - name: section
         label: Section
         widget: string
