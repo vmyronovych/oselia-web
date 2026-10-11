@@ -25,6 +25,7 @@ const BASE_CLEAN = BASE.replace(/\/$/, '');
  */
 function rehypeBasePaths() {
   if (!BASE_CLEAN) return () => {};
+  /** @param {unknown} val */
   const fix = (val) =>
     typeof val === 'string' &&
     val.startsWith('/') &&

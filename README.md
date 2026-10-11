@@ -111,6 +111,32 @@ custom domain or a user page (`vmyronovych.github.io`), set `SITE` and `BASE` en
 vars for the build (see [`astro.config.mjs`](astro.config.mjs)) — set `BASE=/` — and
 add a `CNAME` file / Pages custom-domain setting.
 
+## Interactive roller shutter guide
+
+The single new navigation item, **Як додати ролети / Add roller shutters**, opens
+`/uk/docs/roller-shutters` or `/docs/roller-shutters` (with the deployment base).
+It is a browser-native HTML/SVG walkthrough powered by Anime.js, with manual steps,
+auto play, pause, interactive cover controls, and a reduced-motion mode. No video
+files, rendering tools, Home Assistant credentials or backend connection are needed.
+
+- `src/components/ShutterGuide.astro` — Home Assistant interface scenes and SVG graphics.
+- `src/styles/shutter-guide.css` — isolated light-theme HA styling; self-hosted Roboto
+  and Material Design icons keep the interface close to Home Assistant.
+- `src/scripts/shutter-guide.ts` — animation timelines, navigation and demo interactions.
+- `src/data/shutter-guide.ts` — Ukrainian/English instructions and animation targets.
+- `src/content/docs/{uk,en}/roller-shutters.md` — written fallback and full setup steps;
+  `interactive: roller-shutters` selects the full-width guide layout.
+
+OSELIA Config's layout/labels follow the actual integration's
+`custom_components/oselia/www/oselia-config-panel.js` (commit `13aa164`). Relay forms
+follow Waveshare's `strings.json`, `config_flow.py`, cover implementation and blueprint
+(commit `eea996c`). The HA shell is an HTML/CSS reproduction, not an embedded HA frontend;
+compare it against the target HA version when refreshing the guide. HA reference:
+https://github.com/home-assistant/frontend/tree/dev/src/resources/theme
+
+Run `npm run dev` to edit and `npm run build` to validate. Written guides remain editable
+in Decap CMS. Anime.js is bundled locally; fonts and icons do not require a CDN.
+
 ## Tech
 
 [Astro](https://astro.build) (static output) · content collections ·
