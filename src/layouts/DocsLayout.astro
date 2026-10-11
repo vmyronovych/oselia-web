@@ -13,7 +13,7 @@ interface Props {
 const { title, description, current, lang } = Astro.props;
 
 const docs = (
-  await getCollection('docs', ({ id, data }) => entryLang(id) === lang && !data.draft)
+  await getCollection('docs', ({ id, data }) => entryLang(id) === lang && !data.draft && !data.interactive)
 ).sort((a, b) => a.data.order - b.data.order);
 
 // Group by section, preserving first-seen order.

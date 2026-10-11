@@ -35,6 +35,7 @@ const localeLinks = (Object.keys(languages) as Lang[]).map((code) => ({
     </a>
     <nav class="nav">
       {nav.map((n) => <a class="hide-sm" href={n.href}>{n.label}</a>)}
+      <a class="guide-nav" href={localizedPath(lang, '/docs/roller-shutters')} aria-current={pathname.replace(/\/$/, '').endsWith('/docs/roller-shutters') ? 'page' : undefined}>{lang === 'uk' ? 'Як додати ролети' : 'Add roller shutters'}</a>
       <div class="lang-switch" role="group" aria-label={t('lang.label')}>
         {localeLinks.map((l) => (
           <a
@@ -49,3 +50,12 @@ const localeLinks = (Object.keys(languages) as Lang[]).map((code) => ({
     </nav>
   </div>
 </header>
+<style>
+  .nav { gap: 1rem; }
+  .guide-nav { white-space: nowrap; }
+  .guide-nav[aria-current=page] { color: var(--ember-soft); }
+  @media (max-width: 560px) {
+    .site-header .wrap { height: auto; min-height: 64px; padding-block: .65rem; flex-wrap: wrap; gap: .5rem; }
+    .nav { flex-basis: 100%; justify-content: space-between; }
+  }
+</style>

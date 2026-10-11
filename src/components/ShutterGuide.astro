@@ -1,0 +1,156 @@
+---
+import '@fontsource/roboto/latin-400.css';
+import '@fontsource/roboto/latin-500.css';
+import '@fontsource/roboto/latin-700.css';
+import '@fontsource/roboto/cyrillic-400.css';
+import '@fontsource/roboto/cyrillic-500.css';
+import '@fontsource/roboto/cyrillic-700.css';
+import '../styles/shutter-guide.css';
+import { mdiHomeAssistant, mdiViewDashboard, mdiLightningBolt, mdiHistory, mdiCog, mdiDeveloperBoard, mdiMenu, mdiMagnify, mdiDotsVertical, mdiClose, mdiChevronRight, mdiArrowUp, mdiArrowDown, mdiStop, mdiWindowShutter, mdiCheckCircle, mdiBellOutline, mdiAccountCircle, mdiPencil } from '@mdi/js';
+import Icon from './GuideIcon.astro';
+import { shutterSteps } from '../data/shutter-guide';
+import type { Lang } from '../i18n/ui';
+const { lang } = Astro.props as { lang: Lang };
+const uk = lang === 'uk';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const steps = shutterSteps[lang];
+const shutter = uk ? 'Ролета вітальні' : 'Living room shutter';
+const room = uk ? 'Вітальня' : 'Living room';
+const board = uk ? 'Щитова' : 'Utility';
+const names = { up: uk ? 'Вітальня — клавіша вгору' : 'Living room — up button', down: uk ? 'Вітальня — клавіша вниз' : 'Living room — down button' };
+const sidebar = [[mdiViewDashboard,'Overview'],[mdiLightningBolt,'Energy'],[mdiHistory,'History'],[mdiDeveloperBoard,'OSELIA Config'],[mdiWindowShutter,'OSELIA'],[mdiCog,'Settings']];
+const fields = [
+  ['Name',shutter],['Relay board',`${board} (address 1)`],['Up relay (opens)','1'],['Down relay (closes)','2'],['Up travel time (seconds)','0'],['Down travel time (seconds)','0'],
+];
+---
+<section class="shutter-guide" data-lang={lang} aria-label={uk ? 'Інтерактивна інструкція' : 'Interactive guide'}>
+  <div class="guide-toolbar">
+    <label class="guide-step-label">{uk ? 'Крок' : 'Step'}
+      <select data-step-select aria-label={uk ? 'Оберіть крок інструкції' : 'Choose a tutorial step'}>
+        {steps.map((step,i)=><option value={i}>{i+1}. {step.title}</option>)}
+      </select>
+    </label>
+    <button class="guide-play" type="button" data-play aria-pressed="false">{uk ? '▶ Автопоказ' : '▶ Auto play'}</button>
+  </div>
+  <div class="guide-progress" aria-hidden="true"><div data-progress></div></div>
+  <div class="guide-explanation" aria-live="polite" aria-atomic="true">
+    <span class="guide-number" data-step-number>01 / {steps.length}</span>
+    <div><h2 data-step-title>{steps[0].title}</h2><p data-step-body>{steps[0].body}</p></div>
+  </div>
+
+  <div class="ha-demo" data-demo>
+    <aside class="ha-sidebar" aria-label="Home Assistant demo sidebar">
+      <div class="ha-brand"><Icon path={mdiHomeAssistant} /><span>Home Assistant</span></div>
+      {sidebar.map(([path,label])=><div class:list={['ha-sidebar-item',{'selected':label==='Settings'}]} data-sidebar={label}><Icon path={path}/><span>{label}</span></div>)}
+      <div class="ha-sidebar-bottom"><div class="ha-sidebar-item"><Icon path={mdiBellOutline}/>Notifications</div><div class="ha-sidebar-item"><Icon path={mdiAccountCircle}/>OSELIA</div></div>
+    </aside>
+    <div class="ha-main">
+      <header class="ha-toolbar"><Icon path={mdiMenu}/><span data-ha-title>Settings</span><Icon path={mdiMagnify}/><Icon path={mdiDotsVertical}/></header>
+      <div class="ha-tabs" data-ha-tabs><span class="active">Integrations</span><span>Devices</span><span>Entities</span><span>Helpers</span></div>
+      <div class="ha-scene" data-scene>
+        <div class="ha-integration-page">
+          <div class="ha-search"><Icon path={mdiMagnify}/>Search integrations</div>
+          <div class="ha-integration-grid">
+            <div class="ha-card integration-card"><Icon path={mdiDeveloperBoard}/><h3>Waveshare Modbus RTU Relay</h3><p>1 device • 11 entities</p><div class="ha-card-divider"></div><div class="ha-card-actions"><span>{board}</span><button type="button" class="ha-text-button guide-target" data-target="configure" data-advance>Configure</button><Icon path={mdiDotsVertical}/></div></div>
+            <div class="ha-card integration-card"><img class="integration-icon" src={`${base}/guide-assets/oselia-icon.png`} alt="" width="44" height="44"/><h3>OSELIA Hearth</h3><p>1 device • 16 inputs</p><div class="ha-card-divider"></div><div class="ha-card-actions"><span>Hearth DI16-G</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <svg data-cursor class="guide-cursor" width="32" height="40" viewBox="0 0 32 40" aria-hidden="true"><path d="M3 2v29l8-7 6 13 6-3-7-13h12Z" fill="#17242e" stroke="white" stroke-width="2"/></svg>
+    <span data-ripple class="guide-ripple" aria-hidden="true"></span>
+    <div class="ha-demo-label">{uk ? 'Навчальний приклад' : 'Interactive example'}</div>
+  </div>
+
+  <p class="guide-hint" data-step-hint>{steps[0].hint}</p>
+  <div class="guide-controls">
+    <button type="button" data-previous disabled>{uk ? '← Назад' : '← Back'}</button>
+    <span data-path>{steps[0].path}</span>
+    <button type="button" data-next class="guide-next">{uk ? 'Далі →' : 'Next →'}</button>
+  </div>
+  <p class="guide-footnote">{uk ? 'Натискайте підсвічені елементи або «Далі». Автопоказ можна поставити на паузу. Це демонстрація без підключення до вашого Home Assistant.' : 'Click the highlighted controls or Next. Auto play can be paused. This demonstration is not connected to your Home Assistant.'}</p>
+  <noscript><p>{uk ? 'Увімкніть JavaScript для анімації або скористайтеся текстовими кроками нижче.' : 'Enable JavaScript for the animation or use the written steps below.'}</p></noscript>
+
+  <template data-template="options">
+    <div class="ha-dialog-backdrop"><section class="ha-dialog ha-options" aria-label="Waveshare relays">
+      <div class="ha-dialog-header"><Icon path={mdiClose}/><h3>Waveshare relays</h3></div>
+      <div class="ha-options-list">
+        {['Add a relay board','Remove relay boards','Add a roller shutter','Edit a roller shutter','Remove roller shutters','Bus settings'].map((label,i)=>i===2
+          ? <button type="button" data-target="add-cover" data-advance>{label}<Icon path={mdiChevronRight}/></button>
+          : <div>{label}<Icon path={mdiChevronRight}/></div>)}
+      </div>
+    </section></div>
+  </template>
+  {['create','timing'].map(scene=><template data-template={scene}>
+    <div class="ha-dialog-backdrop"><section class="ha-dialog" aria-label={scene==='create'?'Add a roller shutter':'Edit roller shutter'}>
+      <div class="ha-dialog-header"><Icon path={mdiClose}/><h3>{scene==='create'?'Add a roller shutter':'Edit roller shutter'}</h3></div>
+      <p class="ha-dialog-description">{scene==='create'?'Pair the up and down relays of one shutter into a single cover. The relay numbers match the switch labels (Relay 1, Relay 2, …).':'Change the shutter’s relays or travel times. The entity is kept — automations, dashboards and history stay intact.'}</p>
+      <div class="ha-form">
+        {fields.map(([label,value],i)=><label class="ha-field"><span>{label}</span><input readonly tabindex="-1" value={scene==='timing'&&i>=4?(i===4?'24':'26'):value}/>{i===1&&<span class="ha-select-arrow">▾</span>}{i>=4&&<span class="ha-unit">s</span>}</label>)}
+      </div>
+      <footer class="ha-dialog-footer"><button class="ha-button" type="button" data-target={scene==='create'?'submit':'save-timing'} data-advance>Submit</button></footer>
+    </section></div>
+  </template>)}
+  <template data-template="test">
+    <div class="ha-dialog-backdrop"><section class="ha-dialog ha-cover-dialog" aria-label={shutter}>
+      <div class="ha-dialog-header"><Icon path={mdiClose}/><h3>{shutter}</h3><Icon path={mdiCog}/></div>
+      <div class="ha-cover-summary"><span data-cover-status>{uk?'Зупинено':'Stopped'}</span></div>
+      <svg class="ha-shutter-svg" viewBox="0 0 220 200" aria-label={uk?'Анімація руху ролети':'Shutter movement animation'}>
+        <defs><pattern id="guide-slats" width="180" height="12" patternUnits="userSpaceOnUse"><rect width="180" height="12" fill="#91a7b5"/><path d="M0 11.5H180" stroke="#627d8d"/></pattern></defs>
+        <rect x="20" y="14" width="180" height="174" rx="3" fill="#e1f5fe" stroke="#b0bec5" stroke-width="4"/>
+        <path d="M110 14V188M20 101H200" stroke="#b0bec5" stroke-width="4"/>
+        <rect data-slats x="20" y="14" width="180" height="126" fill="url(#guide-slats)"/>
+        <rect x="14" y="8" width="192" height="14" rx="3" fill="#607d8b"/>
+      </svg>
+      <div class="ha-cover-actions"><button type="button" data-motion="open" data-target="open" aria-label="Open"><Icon path={mdiArrowUp}/></button><button type="button" data-motion="stop" aria-label="Stop"><Icon path={mdiStop}/></button><button type="button" data-motion="close" aria-label="Close"><Icon path={mdiArrowDown}/></button></div>
+      <p class="ha-cover-note">{uk?'Без часу ходу: відкривання, зупинка, закривання.':'Without travel times: open, stop and close.'}</p>
+    </section></div>
+  </template>
+  <template data-template="room">
+    <div class="ha-dialog-backdrop"><section class="ha-dialog" aria-label="Entity settings">
+      <div class="ha-dialog-header"><Icon path={mdiClose}/><h3>{shutter}</h3><Icon path={mdiDotsVertical}/></div>
+      <div class="ha-entity-tabs"><span class="active">Settings</span><span>Related</span></div>
+      <div class="ha-form">
+        <label class="ha-field"><span>Name</span><input readonly tabindex="-1" value={shutter}/></label>
+        <label class="ha-field"><span>Icon</span><input readonly tabindex="-1" value="mdi:window-shutter"/></label>
+        <label class="ha-switch-row"><span>Use device area ({board})</span><input type="checkbox" role="switch" checked data-area-switch data-target="device-area"/></label>
+        <label class="ha-field"><span>Area</span><select data-area-select disabled><option value="board">{board}</option><option value="room">{room}</option></select></label>
+        <label class="ha-field"><span>Entity ID</span><input readonly tabindex="-1" value="cover.living_room_shutter"/></label>
+      </div>
+      <footer class="ha-dialog-footer"><button type="button" class="ha-button" data-area-save disabled>Update</button></footer>
+    </section></div>
+  </template>
+  {['listen','learned','binding','second'].map(scene=><template data-template={scene}>
+    <div class="oselia-panel">
+      <h3>OSELIA — Rooms &amp; buttons</h3>
+      <p class="sub">Map wall-switch gestures to lights and roller shutters. Each mapping becomes an automation you can still open in the editor.</p>
+      <div class="oselia-card commissioning"><h4>Commissioning order</h4><ol><li>Provision each relay board’s Modbus address (Waveshare integration).</li><li>Pair roller-shutter relays into cover entities (Waveshare → Add a roller shutter).</li><li>Learn &amp; name inputs: walk the house, press a button, name it and drop it in an Area.</li><li>Bind at the desk: map each named input + gesture to a light or cover below.</li></ol></div>
+      <div class="oselia-card"><h4>Learn a button</h4><label class="oselia-listen"><input type="checkbox" checked={scene!=='listen'} data-target={scene==='listen'?'listen':undefined} data-listen={scene==='listen'?true:undefined} disabled={scene!=='listen'}/> Listen for presses</label>
+        {scene==='listen'&&<p class="muted">Turn on, walk to a switch, press it — it appears below.</p>}
+        {scene==='learned'&&<div class="oselia-learn-banner"><span><strong>{names.up}</strong> — Long press</span><button type="button" data-target="use-input" data-advance>Use in form ↓</button></div>}
+      </div>
+      <div class="oselia-card"><h4>Add a binding</h4>
+        <div class="oselia-form-grid">
+          <label>Input (wall-switch)<select tabindex="-1" aria-disabled="true"><option>{scene==='listen'||scene==='learned'?'— Select input —':scene==='second'?names.down:names.up}</option></select></label>
+          <label>Gesture<select tabindex="-1" aria-disabled="true"><option>{scene==='listen'||scene==='learned'?'Single press':'Long press'}</option></select></label>
+          <label>Target (light / cover)<select tabindex="-1" aria-disabled="true"><option>{scene==='listen'||scene==='learned'?'— Select target —':`${shutter} (cover.living_room_shutter)`}</option></select></label>
+          <label>Action<select tabindex="-1" aria-disabled="true"><option>{scene==='second'?'close':'open'}</option></select></label>
+          <label>Name<input readonly tabindex="-1" value={scene==='binding'||scene==='second'?`${room} — ${scene==='second'?'close':'open'}`:''} placeholder="e.g. Kitchen ceiling"/></label>
+        </div>
+        <button type="button" class="oselia-save" disabled={scene==='listen'||scene==='learned'} data-target={scene==='binding'||scene==='second'?'save-binding':undefined} data-advance>Save binding</button>
+      </div>
+      {scene==='second'&&<div class="oselia-card"><h4>Bindings</h4><div class="oselia-binding-row"><Icon path={mdiCheckCircle}/><span>{room} — open</span><span>long → open</span><Icon path={mdiPencil}/></div></div>}
+    </div>
+  </template>)}
+  <template data-template="dashboard">
+    <div class="ha-resident"><h3>{room}</h3><div class="ha-card ha-resident-cover" data-target="cover-card">
+      <div class="ha-resident-title"><span class="ha-cover-icon"><Icon path={mdiWindowShutter}/></span><div><strong>{shutter}</strong><p data-resident-status>50% {uk?'відкрито':'open'}</p></div></div>
+      <div class="ha-cover-actions"><button type="button" data-resident="100" aria-label="Open"><Icon path={mdiArrowUp}/></button><button type="button" data-resident="stop" aria-label="Stop"><Icon path={mdiStop}/></button><button type="button" data-resident="0" aria-label="Close"><Icon path={mdiArrowDown}/></button></div>
+      <input type="range" min="0" max="100" value="50" data-position aria-label={uk?'Відсоток відкриття ролети':'Shutter open percentage'}/>
+    </div><p class="ha-done"><Icon path={mdiCheckCircle}/>{uk?'Прив’язки збережені. Кімнату призначено.':'Bindings saved. Room assigned.'}</p></div>
+  </template>
+</section>
+<script>
+  import { initializeShutterGuides } from '../scripts/shutter-guide';
+  initializeShutterGuides();
+</script>

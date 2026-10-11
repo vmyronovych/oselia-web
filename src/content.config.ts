@@ -37,6 +37,7 @@ const docs = defineCollection({
     section: z.string().default('Guides'),
     order: z.number().default(0),
     draft: z.boolean().default(false),
+    interactive: z.enum(['roller-shutters']).optional(),
   }),
 });
 
